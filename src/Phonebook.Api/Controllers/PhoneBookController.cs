@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Api.Services.Dtos;
@@ -25,6 +26,12 @@ namespace PhoneBook.Api.Controllers
         {
             var contactInfoId=await _phoneBookService.AddContactInfoToContactPerson(contactInfoAddDto);
             return Ok(contactInfoId);
+        }
+
+        public async Task<IActionResult> RemoveContactPerson(Guid contactPersonId)
+        {
+            await _phoneBookService.RemoveContactPerson(contactPersonId);
+            return Ok();           
         }
     }
 }
