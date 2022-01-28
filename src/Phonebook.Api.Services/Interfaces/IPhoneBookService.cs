@@ -7,5 +7,6 @@ namespace PhoneBook.Api.Services.Interfaces
     public interface IPhoneBookService
     {
         Task<Guid> CreateContactPerson(ContactPersonCreateDto contactPersonCreateDto);
+        Task<Guid> AddContactInfoToContactPerson(ContactInfoAddDto contactInfoAddDto);
     }
 }

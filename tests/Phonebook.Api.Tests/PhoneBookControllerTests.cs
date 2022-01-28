@@ -30,5 +30,25 @@ namespace PhoneBook.Api.Tests
             Assert.Equal(200, okObjectResult.StatusCode);
             Assert.Equal(contactPersonId, okObjectResult.Value);
         }
+
+        [Fact]
+        public async Task AddContactInfoToContactPerson_Should_Add_ContactInfo_To_ContactPerson()
+        {
+            //arrange
+            var phoneBookService = new Mock<IPhoneBookService>();
+            var phoneBookController = new PhoneBookController(phoneBookService.Object);
+            var contactInfoAddDto = new ContactInfoAddDto { };
+            var contactInfoId = Guid.NewGuid();
+            phoneBookService.Setup(x => x.AddContactInfoToContactPerson(contactInfoAddDto)).ReturnsAsync(contactInfoId);
+
+            //act
+            var actionResult = await phoneBookController.AddContactInfoToContactPerson(contactInfoAddDto);
+            var okObjectResult = actionResult as OkObjectResult;
+
+            //assert
+            phoneBookService.Verify(x => x.AddContactInfoToContactPerson(contactInfoAddDto));
+            Assert.Equal(200, okObjectResult.StatusCode);
+            Assert.Equal(contactInfoId, okObjectResult.Value);            
+        }
     }
 }

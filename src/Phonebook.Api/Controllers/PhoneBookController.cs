@@ -20,5 +20,11 @@ namespace PhoneBook.Api.Controllers
             var contactPersonId = await _phoneBookService.CreateContactPerson(contactPersonCreateDto);
             return Ok(contactPersonId);
         }
+
+        public async Task<IActionResult>  AddContactInfoToContactPerson(ContactInfoAddDto contactInfoAddDto)
+        {
+            var contactInfoId=await _phoneBookService.AddContactInfoToContactPerson(contactInfoAddDto);
+            return Ok(contactInfoId);
+        }
     }
 }
