@@ -4,6 +4,7 @@ using PhoneBook.Api.Controllers;
 using PhoneBook.Api.Services.Dtos;
 using PhoneBook.Api.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -83,6 +84,30 @@ namespace PhoneBook.Api.Tests
             //assert
             phoneBookService.Verify(x => x.RemoveContactInfo(contactInfoId));
             Assert.Equal(200, okResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task ListContactPersons_Should_List_ContactPersons()
+        {
+            //arrange
+            var phoneBookService = new Mock<IPhoneBookService>();
+            var contactPersons = new List<ContactPersonDto>();
+            var contactPersonsCount=10;
+            for(var i=0; i<contactPersonsCount; i++ ) {
+                contactPersons.Add(new ContactPersonDto{ContactPersonId=Guid.NewGuid(), Name=$"Name-{i}", LastName=$"LastName-{i}", Company=$"Company-{i}"});
+            }
+
+            phoneBookService.Setup(x => x.ListContactPersons()).ReturnsAsync(contactPersons);
+            var phoneBookController = new PhoneBookController(phoneBookService.Object);
+
+            //act
+            var actionResult = await phoneBookController.ListContactPersons();
+            var okObjectResult = actionResult as OkObjectResult;
+
+            //assert
+            phoneBookService.Verify(x => x.ListContactPersons());
+            Assert.Equal(200, okObjectResult.StatusCode);
+            Assert.Equal(contactPersons, okObjectResult.Value);
         }
     }
 }
