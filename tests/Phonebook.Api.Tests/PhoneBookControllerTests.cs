@@ -67,5 +67,22 @@ namespace PhoneBook.Api.Tests
             phoneBookService.Verify(x => x.RemoveContactPerson(contactPersonId));
             Assert.Equal(200, okResult.StatusCode);
         }
+
+        [Fact]
+        public async Task RemoveContactInfo_Should_Remove_ContactInfo_From_ContactPerson()
+        {
+            //arrange
+            var phoneBookService = new Mock<IPhoneBookService>();
+            var phoneBookController = new PhoneBookController(phoneBookService.Object);
+            var contactInfoId = Guid.NewGuid();
+
+            //act
+            var actionResult = await phoneBookController.RemoveContactInfo(contactInfoId);
+            var okResult = actionResult as OkResult;
+
+            //assert
+            phoneBookService.Verify(x => x.RemoveContactInfo(contactInfoId));
+            Assert.Equal(200, okResult.StatusCode);
+        }
     }
 }

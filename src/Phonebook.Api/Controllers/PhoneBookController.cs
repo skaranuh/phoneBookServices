@@ -33,5 +33,11 @@ namespace PhoneBook.Api.Controllers
             await _phoneBookService.RemoveContactPerson(contactPersonId);
             return Ok();           
         }
+
+        public async Task<IActionResult>  RemoveContactInfo(Guid contactInfoId)
+        {
+            await _phoneBookService.RemoveContactInfo(contactInfoId);
+            return Ok();
+        }
     }
 }
