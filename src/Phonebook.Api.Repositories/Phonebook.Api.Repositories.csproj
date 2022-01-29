@@ -1,7 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\PhoneBook.Api.DataContext\PhoneBook.Api.DataContext.csproj" />
+	  <ProjectReference Include="..\PhoneBook.Api.Entities\PhoneBook.Api.Entities.csproj" />
+	</ItemGroup>
 </Project>

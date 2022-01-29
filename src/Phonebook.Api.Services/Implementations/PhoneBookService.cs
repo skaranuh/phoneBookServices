@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using PhoneBook.Api.Services.Dtos;
 using PhoneBook.Api.Services.Interfaces;
-using PhoneBook.Api.Repositories.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
+using PhoneBook.Api.Entities;
 
 namespace PhoneBook.Api.Services.Implementations
 {

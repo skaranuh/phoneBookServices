@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using PhoneBook.Api.Repositories.Entities.Base;
+using PhoneBook.Api.Entities.Base;
 
-namespace PhoneBook.Api.Repositories.Entities
+namespace PhoneBook.Api.Entities
 {
     public class ContactPerson : BaseEntity
     {

@@ -1,4 +1,4 @@
-namespace PhoneBook.Api.Repositories.Enums
+namespace PhoneBook.Api.Entities.Enums
 {
     public enum ContactInfoType
     {

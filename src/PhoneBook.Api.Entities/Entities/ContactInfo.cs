@@ -1,7 +1,7 @@
-using PhoneBook.Api.Repositories.Entities.Base;
-using PhoneBook.Api.Repositories.Enums;
+using PhoneBook.Api.Entities.Base;
+using PhoneBook.Api.Entities.Enums;
 
-namespace PhoneBook.Api.Repositories.Entities
+namespace PhoneBook.Api.Entities
 {
     public class ContactInfo : BaseEntity
     {

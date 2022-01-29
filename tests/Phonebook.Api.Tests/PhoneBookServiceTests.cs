@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
 using PhoneBook.Api.Services.Dtos;
-using PhoneBook.Api.Repositories.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Implementations;
 using Xunit;
 using System.Linq;
+using PhoneBook.Api.Entities;
+using PhoneBook.Api.Entities.Enums;
 
 namespace PhoneBook.Api.Tests
 {
@@ -132,7 +132,7 @@ namespace PhoneBook.Api.Tests
             var mapper = new Mock<IMapper>();
             var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
             var contactPersonId = Guid.NewGuid();
-            var contactPerson = new ContactPerson { ContactInfo = new List<ContactInfo> { new ContactInfo { ContactInfoType = Repositories.Enums.ContactInfoType.Email, Value = "dummy@Email.com" } }, Name = "dummyName", LastName = "dummyLastName", Company = "dummyCompany" };
+            var contactPerson = new ContactPerson { ContactInfo = new List<ContactInfo> { new ContactInfo { ContactInfoType = ContactInfoType.Email, Value = "dummy@Email.com" } }, Name = "dummyName", LastName = "dummyLastName", Company = "dummyCompany" };
             var contactPersonDto = new ContactPersonDto { ContactInfo=new List<ContactInfo>(),  Name = contactPerson.Name, LastName = contactPerson.LastName, Company = contactPerson.Company };
 
             mapper.Setup(x => x.Map<ContactPersonDto>(contactPerson)).Returns(contactPersonDto);

@@ -1,4 +1,4 @@
-using PhoneBook.Api.Repositories.Entities;
+using PhoneBook.Api.Entities;
 
 namespace PhoneBook.Api.Services.Dtos
 {
