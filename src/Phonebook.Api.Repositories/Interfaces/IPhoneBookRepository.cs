@@ -8,5 +8,6 @@ namespace PhoneBook.Api.Repositories.Interfaces
     {
         Task<Guid> CreateContactPerson(ContactPerson contactPerson);
         Task<Guid> AddContactInfoToContactPerson(ContactInfo contactInfo);
+        Task RemoveContactPerson(Guid contactPersonId);
     }
 }

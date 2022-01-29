@@ -47,9 +47,9 @@ namespace PhoneBook.Api.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task RemoveContactPerson(Guid contactInfoId)
+        public async Task RemoveContactPerson(Guid contactInfoId)
         {
-            throw new NotImplementedException();
+            await _phoneBookRepository.RemoveContactPerson(contactInfoId);
         }
     }
 }

@@ -42,14 +42,14 @@ namespace PhoneBook.Api.Tests
             //arrange
             var phoneBookRepository = new Mock<IPhoneBookRepository>();
             var mapper = new Mock<IMapper>();
-            var contactInfo=new ContactInfo{};
+            var contactInfo = new ContactInfo { };
             var expectedContactInfoId = Guid.NewGuid();
-            phoneBookRepository.Setup(x=>x.AddContactInfoToContactPerson(contactInfo)).ReturnsAsync(expectedContactInfoId);
-            
+            phoneBookRepository.Setup(x => x.AddContactInfoToContactPerson(contactInfo)).ReturnsAsync(expectedContactInfoId);
+
             var contactInfoAddDto = new ContactInfoAddDto { };
             mapper.Setup(x => x.Map<ContactInfo>(contactInfoAddDto)).Returns(contactInfo);
             var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
-            
+
             //act
             var contactInfoId = await phoneBookService.AddContactInfoToContactPerson(contactInfoAddDto);
 
@@ -57,6 +57,22 @@ namespace PhoneBook.Api.Tests
             phoneBookRepository.Verify(x => x.AddContactInfoToContactPerson(contactInfo));
             mapper.Verify(x => x.Map<ContactInfo>(contactInfoAddDto));
             Assert.Equal(expectedContactInfoId, contactInfoId);
+        }
+
+        [Fact]
+        public async Task RemoveContactPerson_Should_Remove_Contact_Person()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var contactPersonId = Guid.NewGuid();
+            var mapper = new Mock<IMapper>();
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+
+            //act
+            await phoneBookService.RemoveContactPerson(contactPersonId);
+            
+            //arrange
+             phoneBookRepository.Verify(x => x.RemoveContactPerson(contactPersonId));
         }
 
         public static IEnumerable<object[]> CreateContactPersonData
