@@ -95,7 +95,7 @@ namespace PhoneBook.Api.Tests
             var contactPersonsCount = 10;
             for (var i = 0; i < contactPersonsCount; i++)
             {
-                contactPersons.Add(new ContactPersonDto { ContactPersonId = Guid.NewGuid(), Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
+                contactPersons.Add(new ContactPersonDto { Id = Guid.NewGuid(), Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
             }
 
             phoneBookService.Setup(x => x.ListContactPersons()).ReturnsAsync(contactPersons);

@@ -1,12 +1,10 @@
 using System;
+using PhoneBook.Api.Repositories.Entities;
 
 namespace PhoneBook.Api.Services.Dtos
 {
-    public class ContactPersonDto
+    public class ContactPersonDto:ContactPerson
     {
-        public Guid ContactPersonId { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public string Company { get; set; }
+        
     }
 }

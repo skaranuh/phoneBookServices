@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Phonebook.Api.Services.Dtos;
-using Phonebook.Api.Services.Interfaces;
+using PhoneBook.Api.Services.Dtos;
+using PhoneBook.Api.Services.Interfaces;
 using PhoneBook.Api.Repositories.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 
@@ -37,9 +37,11 @@ namespace PhoneBook.Api.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ContactPersonDto>> ListContactPersons()
+        public async Task<IEnumerable<ContactPersonDto>> ListContactPersons()
         {
-            throw new NotImplementedException();
+             var contactPersons= await _phoneBookRepository.ListContactPersons();
+             var contactPersonDtos = _map.Map<IEnumerable<ContactPersonDto>>(contactPersons);
+             return contactPersonDtos;
         }
 
         public async Task RemoveContactInfo(Guid contactInfoId)

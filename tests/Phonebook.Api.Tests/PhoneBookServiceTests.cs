@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
-using Phonebook.Api.Services.Dtos;
+using PhoneBook.Api.Services.Dtos;
 using PhoneBook.Api.Repositories.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Implementations;
@@ -89,6 +89,37 @@ namespace PhoneBook.Api.Tests
 
             //assert
             phoneBookRepository.Verify(x => x.RemoveContactInfo(contactInfoId));
+        }
+
+        [Fact]
+        public async Task ListContactPersons_Should_List_ContactPersons()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+
+            var contactPersons = new List<ContactPerson>();
+            var contactPersonDtos = new List<ContactPersonDto>();
+
+            var contactPersonsCount = 10;
+            for (var i = 0; i < contactPersonsCount; i++)
+            {
+                var id=Guid.NewGuid();
+                contactPersons.Add(new ContactPerson { Id =id , Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
+                contactPersonDtos.Add(new ContactPersonDto { Id =id , Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
+            }
+
+            phoneBookRepository.Setup(x => x.ListContactPersons()).ReturnsAsync(contactPersons);
+            mapper.Setup(x => x.Map<IEnumerable<ContactPersonDto>>(contactPersons)).Returns(contactPersonDtos);
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+
+            //act
+            var actualContactPersonDtos=await phoneBookService.ListContactPersons();
+
+            //assert
+            phoneBookRepository.Verify(x => x.ListContactPersons());
+            mapper.Verify(x => x.Map<IEnumerable<ContactPersonDto>>(contactPersons));
+            Assert.Equal(contactPersonDtos, actualContactPersonDtos);
         }
 
         public static IEnumerable<object[]> CreateContactPersonData
