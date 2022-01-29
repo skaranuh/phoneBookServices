@@ -5,6 +5,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10"/>
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10"/>
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\PhoneBook.Api.Entities\PhoneBook.Api.Entities.csproj"/>
