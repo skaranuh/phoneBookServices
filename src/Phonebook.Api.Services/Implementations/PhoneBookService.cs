@@ -18,9 +18,11 @@ namespace PhoneBook.Api.Services.Implementations
             _phoneBookRepository = phoneBookRepository;
             _map = map;
         }
-        public Task<Guid> AddContactInfoToContactPerson(ContactInfoAddDto contactInfoAddDto)
+        public async Task<Guid> AddContactInfoToContactPerson(ContactInfoAddDto contactInfoAddDto)
         {
-            throw new NotImplementedException();
+            var contactInfo = _map.Map<ContactInfo>(contactInfoAddDto);
+            var contactInfoId = await _phoneBookRepository.AddContactInfoToContactPerson(contactInfo);
+            return contactInfoId;
         }
 
         public async Task<Guid> CreateContactPerson(ContactPersonCreateDto contactPersonCreateDto)

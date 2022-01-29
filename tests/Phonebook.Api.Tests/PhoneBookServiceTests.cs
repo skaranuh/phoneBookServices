@@ -36,16 +36,39 @@ namespace PhoneBook.Api.Tests
             Assert.Equal(expectedContactPersonId, contactPersonId);
         }
 
+        [Fact]
+        public async Task AddContactInfoToContactPerson_Should_Add_ContactInfo_To_ContactPerson()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+            var contactInfo=new ContactInfo{};
+            var expectedContactInfoId = Guid.NewGuid();
+            phoneBookRepository.Setup(x=>x.AddContactInfoToContactPerson(contactInfo)).ReturnsAsync(expectedContactInfoId);
+            
+            var contactInfoAddDto = new ContactInfoAddDto { };
+            mapper.Setup(x => x.Map<ContactInfo>(contactInfoAddDto)).Returns(contactInfo);
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+            
+            //act
+            var contactInfoId = await phoneBookService.AddContactInfoToContactPerson(contactInfoAddDto);
+
+            //assert
+            phoneBookRepository.Verify(x => x.AddContactInfoToContactPerson(contactInfo));
+            mapper.Verify(x => x.Map<ContactInfo>(contactInfoAddDto));
+            Assert.Equal(expectedContactInfoId, contactInfoId);
+        }
+
         public static IEnumerable<object[]> CreateContactPersonData
         {
             get
             {
-                var _1Character="1";
-                var _100CharacterString= "100-character-string-abcçdefgğhıijklmnoöprsştuüvy-ABCÇDEFGĞHIIJKLMNOÖPRSŞTUÜVY-0123456789-0123456789";                
-                
+                var _1Character = "1";
+                var _100CharacterString = "100-character-string-abcçdefgğhıijklmnoöprsştuüvy-ABCÇDEFGĞHIIJKLMNOÖPRSŞTUÜVY-0123456789-0123456789";
+
                 yield return new object[] { _1Character, _1Character, _1Character };
                 yield return new object[] { _100CharacterString, _100CharacterString, _100CharacterString };
-                
+
             }
         }
     }
