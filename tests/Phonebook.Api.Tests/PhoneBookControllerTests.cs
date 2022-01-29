@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using PhoneBook.Api.Controllers;
 using PhoneBook.Api.Services.Dtos;
+using PhoneBook.Api.Controllers;
 using PhoneBook.Api.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -92,9 +92,10 @@ namespace PhoneBook.Api.Tests
             //arrange
             var phoneBookService = new Mock<IPhoneBookService>();
             var contactPersons = new List<ContactPersonDto>();
-            var contactPersonsCount=10;
-            for(var i=0; i<contactPersonsCount; i++ ) {
-                contactPersons.Add(new ContactPersonDto{ContactPersonId=Guid.NewGuid(), Name=$"Name-{i}", LastName=$"LastName-{i}", Company=$"Company-{i}"});
+            var contactPersonsCount = 10;
+            for (var i = 0; i < contactPersonsCount; i++)
+            {
+                contactPersons.Add(new ContactPersonDto { ContactPersonId = Guid.NewGuid(), Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
             }
 
             phoneBookService.Setup(x => x.ListContactPersons()).ReturnsAsync(contactPersons);
@@ -108,6 +109,26 @@ namespace PhoneBook.Api.Tests
             phoneBookService.Verify(x => x.ListContactPersons());
             Assert.Equal(200, okObjectResult.StatusCode);
             Assert.Equal(contactPersons, okObjectResult.Value);
+        }
+
+        [Fact]
+        public async Task GetContactPersonDetails_Should_Return_ContactPerson_Details()
+        {
+            //arrange
+            var phoneBookService = new Mock<IPhoneBookService>();
+            var phoneBookController = new PhoneBookController(phoneBookService.Object);
+            var contactPersonId=Guid.NewGuid();
+            var contactPersonDetailsDto=new ContactPersonDetailsDto{ContactPerson=new ContactPersonDto(), ContactInfo=new List<ContactInfoDto>()};
+            phoneBookService.Setup(x=>x.GetContactPersonDetails(contactPersonId)).ReturnsAsync(contactPersonDetailsDto);
+
+            //act
+            var actionResult = await phoneBookController.GetContactPersonDetails(contactPersonId);
+            var okObjectResult = actionResult as OkObjectResult;
+
+            //assert
+            phoneBookService.Verify(x=>x.GetContactPersonDetails(contactPersonId));
+            Assert.Equal(200, okObjectResult.StatusCode);
+            Assert.Equal(contactPersonDetailsDto, okObjectResult.Value);
         }
     }
 }

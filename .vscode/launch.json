@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/tests/Phonebook.Api.Tests/bin/Debug/net5.0/Phonebook.Api.Tests.dll",
+            "program": "${workspaceFolder}/tests/PhoneBook.Api.Tests/bin/Debug/net5.0/PhoneBook.Api.Tests.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/tests/Phonebook.Api.Tests",
+            "cwd": "${workspaceFolder}/tests/PhoneBook.Api.Tests",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

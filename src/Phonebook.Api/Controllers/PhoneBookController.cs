@@ -45,5 +45,11 @@ namespace PhoneBook.Api.Controllers
             var contactPersons=await _phoneBookService.ListContactPersons();
             return Ok(contactPersons);
         }
+
+        public async Task<IActionResult> GetContactPersonDetails(Guid contactPersonId)
+        {
+            var contactPersonDetails=await _phoneBookService.GetContactPersonDetails(contactPersonId);
+            return Ok(contactPersonDetails);
+        }
     }
 }
