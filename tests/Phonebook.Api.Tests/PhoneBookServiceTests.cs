@@ -70,9 +70,25 @@ namespace PhoneBook.Api.Tests
 
             //act
             await phoneBookService.RemoveContactPerson(contactPersonId);
-            
+
+            //assert
+            phoneBookRepository.Verify(x => x.RemoveContactPerson(contactPersonId));
+        }
+
+        [Fact]
+        public async Task RemoveContactInfo_Should_Remove_ContactInfo_From_ContactPerson()
+        {
             //arrange
-             phoneBookRepository.Verify(x => x.RemoveContactPerson(contactPersonId));
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+            var contactInfoId = Guid.NewGuid();
+
+            //act
+            await phoneBookService.RemoveContactInfo(contactInfoId);
+
+            //assert
+            phoneBookRepository.Verify(x => x.RemoveContactInfo(contactInfoId));
         }
 
         public static IEnumerable<object[]> CreateContactPersonData
