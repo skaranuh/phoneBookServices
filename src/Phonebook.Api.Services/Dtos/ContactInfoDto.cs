@@ -1,15 +1,9 @@
-using System;
-using PhoneBook.Api.Services.Enums;
+using PhoneBook.Api.Repositories.Entities;
 
 namespace PhoneBook.Api.Services.Dtos
 {
-    public class ContactInfoDto
+    public class ContactInfoDto: ContactInfo
     {
-        public Guid ContactInfoId { get; set; }
-        public int ContactPersonId { get; set; }
-
-        public ContactInfoType Type { get; set; }
-
-        public string Value { get; set; }
+       
     }
 }

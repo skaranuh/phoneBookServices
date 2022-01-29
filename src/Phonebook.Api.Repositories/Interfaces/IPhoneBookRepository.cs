@@ -12,5 +12,6 @@ namespace PhoneBook.Api.Repositories.Interfaces
         Task RemoveContactPerson(Guid contactPersonId);
         Task RemoveContactInfo(Guid contactInfoId);
         Task<IEnumerable<ContactPerson>> ListContactPersons();
+        Task<ContactPerson> GetContactPersonDetails(Guid contactPersonId);
     }
 }

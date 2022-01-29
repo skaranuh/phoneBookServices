@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
@@ -8,6 +9,7 @@ using PhoneBook.Api.Repositories.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Implementations;
 using Xunit;
+using System.Linq;
 
 namespace PhoneBook.Api.Tests
 {
@@ -104,9 +106,9 @@ namespace PhoneBook.Api.Tests
             var contactPersonsCount = 10;
             for (var i = 0; i < contactPersonsCount; i++)
             {
-                var id=Guid.NewGuid();
-                contactPersons.Add(new ContactPerson { Id =id , Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
-                contactPersonDtos.Add(new ContactPersonDto { Id =id , Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
+                var id = Guid.NewGuid();
+                contactPersons.Add(new ContactPerson { Id = id, Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
+                contactPersonDtos.Add(new ContactPersonDto { Id = id, Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
             }
 
             phoneBookRepository.Setup(x => x.ListContactPersons()).ReturnsAsync(contactPersons);
@@ -114,12 +116,41 @@ namespace PhoneBook.Api.Tests
             var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
 
             //act
-            var actualContactPersonDtos=await phoneBookService.ListContactPersons();
+            var actualContactPersonDtos = await phoneBookService.ListContactPersons();
 
             //assert
             phoneBookRepository.Verify(x => x.ListContactPersons());
             mapper.Verify(x => x.Map<IEnumerable<ContactPersonDto>>(contactPersons));
             Assert.Equal(contactPersonDtos, actualContactPersonDtos);
+        }
+
+        [Fact]
+        public async Task GetContactPersonDetails_Should_Return_ContactPerson_Details()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+            var contactPersonId = Guid.NewGuid();
+            var contactPerson = new ContactPerson { ContactInfo = new List<ContactInfo> { new ContactInfo { ContactInfoType = Repositories.Enums.ContactInfoType.Email, Value = "dummy@Email.com" } }, Name = "dummyName", LastName = "dummyLastName", Company = "dummyCompany" };
+            var contactPersonDto = new ContactPersonDto { ContactInfo=new List<ContactInfo>(),  Name = contactPerson.Name, LastName = contactPerson.LastName, Company = contactPerson.Company };
+
+            mapper.Setup(x => x.Map<ContactPersonDto>(contactPerson)).Returns(contactPersonDto);
+
+            phoneBookRepository.Setup(x => x.GetContactPersonDetails(contactPersonId)).ReturnsAsync(contactPerson);
+
+            //act
+            var contactPersonDetails = await phoneBookService.GetContactPersonDetails(contactPersonId);
+
+            //assert
+            phoneBookRepository.Verify(x => x.GetContactPersonDetails(contactPersonId));
+            Assert.Equal(contactPersonDto.Name, contactPersonDetails.ContactPerson.Name);
+            Assert.Equal(contactPersonDto.LastName, contactPersonDetails.ContactPerson.LastName);
+            Assert.Equal(contactPersonDto.Company, contactPersonDetails.ContactPerson.Company);
+            foreach (var contactInfo in contactPersonDetails.ContactInfo)
+            {
+               Assert.NotNull(contactPersonDto.ContactInfo.Where(x=>x.Value==contactInfo.Value));
+            }         
         }
 
         public static IEnumerable<object[]> CreateContactPersonData

@@ -32,9 +32,13 @@ namespace PhoneBook.Api.Services.Implementations
             return contactPersonId;
         }
 
-        public Task<ContactPersonDetailsDto> GetContactPersonDetails(Guid contactPersonId)
+        public async Task<ContactPersonDetailsDto> GetContactPersonDetails(Guid contactPersonId)
         {
-            throw new NotImplementedException();
+           var contactPersonDetails= await _phoneBookRepository.GetContactPersonDetails(contactPersonId);
+           var contactPersonDto=_map.Map<ContactPersonDto>(contactPersonDetails);
+           var contactInfoDto=_map.Map<IEnumerable<ContactInfoDto>>(contactPersonDetails.ContactInfo);
+           var contactPersonDetailsDto=new ContactPersonDetailsDto{ContactPerson=contactPersonDto, ContactInfo=contactInfoDto};
+           return contactPersonDetailsDto;
         }
 
         public async Task<IEnumerable<ContactPersonDto>> ListContactPersons()
