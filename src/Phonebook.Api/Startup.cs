@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +37,7 @@ namespace PhoneBook.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Api", Version = "v1" });
             });
 
-           
+
             services.AddAutoMapper(typeof(MappingsProfile));
 
             services.AddDbContext<PhoneBookDataContext>(options =>
@@ -45,6 +46,13 @@ namespace PhoneBook.Api
             services.AddScoped<IPhoneBookService, PhoneBookService>();
             services.AddScoped<IPhoneBookRepository, PhoneBookRepository>();
             services.AddScoped<IExceptionHelper, ExceptionHelper>();
+
+            services.AddControllers()
+               .AddJsonOptions(options =>
+               {
+                   options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                   options.JsonSerializerOptions.IgnoreNullValues = true;
+               });
 
         }
 
@@ -60,7 +68,7 @@ namespace PhoneBook.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBook.Api v1"));
             }
 
-               app.UseExceptionHandler(new ExceptionHandlerOptions
+            app.UseExceptionHandler(new ExceptionHandlerOptions
             {
                 ExceptionHandler = new JsonExceptionMiddleware(logger, exceptionHelper).Invoke
             });
