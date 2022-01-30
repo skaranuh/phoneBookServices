@@ -9,10 +9,16 @@ namespace PhoneBook.Api.Services.Mappings
         public MappingsProfile()
         {
             CreateMap<ContactPersonCreateDto, ContactPerson>();
-            CreateMap<ContactPerson, ContactPersonCreateDto>();  
+            CreateMap<ContactPerson, ContactPersonCreateDto>();
 
             CreateMap<ContactPersonDto, ContactPerson>();
-            CreateMap<ContactPerson, ContactPersonDto>(); 
+            CreateMap<ContactPerson, ContactPersonDto>();
+
+            CreateMap<ContactInfoAddDto, ContactInfo>().ForMember(x => x.Value, y => y.MapFrom(z => z.ContactInfo));
+            CreateMap<ContactInfo, ContactInfoAddDto>().ForMember(x => x.ContactInfo, y => y.MapFrom(z => z.Value));
+
+            CreateMap<ContactInfoDto, ContactInfo>();
+            CreateMap<ContactInfo, ContactInfoDto>();
         }
     }
 }

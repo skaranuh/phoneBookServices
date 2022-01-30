@@ -8,5 +8,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\PhoneBook.Api.DataContext\PhoneBook.Api.DataContext.csproj" />
 	  <ProjectReference Include="..\PhoneBook.Api.Entities\PhoneBook.Api.Entities.csproj" />
+	  <ProjectReference Include="..\PhoneBook.Api.Utilities\PhoneBook.Api.Utilities.csproj" />
 	</ItemGroup>
 </Project>

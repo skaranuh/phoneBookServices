@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using PhoneBook.Api.Entities.Entities;
 
 namespace PhoneBook.Api.Tests
 {
@@ -40,8 +41,8 @@ namespace PhoneBook.Api.Tests
             var phoneBookService = new Mock<IPhoneBookService>();
             var phoneBookController = new PhoneBookController(phoneBookService.Object);
             var contactInfoAddDto = new ContactInfoAddDto { };
-            var contactInfoId = Guid.NewGuid();
-            phoneBookService.Setup(x => x.AddContactInfoToContactPerson(contactInfoAddDto)).ReturnsAsync(contactInfoId);
+            var contactInfoDto = new ContactInfoDto {} ;
+            phoneBookService.Setup(x => x.AddContactInfoToContactPerson(contactInfoAddDto)).ReturnsAsync(contactInfoDto);
 
             //act
             var actionResult = await phoneBookController.AddContactInfoToContactPerson(contactInfoAddDto);
@@ -50,7 +51,7 @@ namespace PhoneBook.Api.Tests
             //assert
             phoneBookService.Verify(x => x.AddContactInfoToContactPerson(contactInfoAddDto));
             Assert.Equal(200, okObjectResult.StatusCode);
-            Assert.Equal(contactInfoId, okObjectResult.Value);
+            Assert.Equal(contactInfoDto, okObjectResult.Value);
         }
 
         [Fact]

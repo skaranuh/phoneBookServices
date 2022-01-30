@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using PhoneBook.Api.DataContext;
 using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
+using System.Linq;
+using PhoneBook.Api.Utilities.Exceptions;
 
 namespace PhoneBook.Api.Repositories.Implementations
 {
@@ -15,9 +17,20 @@ namespace PhoneBook.Api.Repositories.Implementations
         {
             _phoneBookDataContext = phoneBookDataContext;
         }
-        public Task<Guid> AddContactInfoToContactPerson(ContactInfo contactInfo)
+        public async Task<Guid> AddContactInfoToContactPerson(ContactInfo contactInfo)
         {
-            throw new NotImplementedException();
+            var contactPerson = await _phoneBookDataContext.ContactPersons.FindAsync(contactInfo.ContactPersonId);
+            if (contactPerson == null)
+            {
+                throw new NotFoundException($"Contact person not found: Contact person id : {contactInfo.ContactPersonId}");
+            }
+            if (contactPerson.ContactInfo == null)
+            {
+                contactPerson.ContactInfo = new List<ContactInfo>();
+            }
+            contactPerson.ContactInfo.Add(contactInfo);
+            await _phoneBookDataContext.SaveChangesAsync();
+            return contactInfo.Id;
         }
 
         public async Task<Guid> CreateContactPerson(ContactPerson contactPerson)

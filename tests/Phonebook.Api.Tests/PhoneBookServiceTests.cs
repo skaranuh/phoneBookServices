@@ -29,7 +29,7 @@ namespace PhoneBook.Api.Tests
             var contactPerson = new ContactPerson { Name = name, LastName = lastName, Company = company };
             var expectedContactPersonId = Guid.NewGuid();
             phoneBookRepository.Setup(x => x.CreateContactPerson(It.IsAny<ContactPerson>())).ReturnsAsync(expectedContactPersonId);
-            var contactPersonDtoExpected=new ContactPersonDto{Id=expectedContactPersonId,  Name = name, LastName = lastName, Company = company };
+            var contactPersonDtoExpected = new ContactPersonDto { Id = expectedContactPersonId, Name = name, LastName = lastName, Company = company };
             mapper.Setup(x => x.Map<ContactPerson>(contactPersonCreateDto)).Returns(contactPerson);
             mapper.Setup(x => x.Map<ContactPersonDto>(contactPerson)).Returns(contactPersonDtoExpected);
 
@@ -48,20 +48,41 @@ namespace PhoneBook.Api.Tests
             var phoneBookRepository = new Mock<IPhoneBookRepository>();
             var mapper = new Mock<IMapper>();
             var contactInfo = new ContactInfo { };
-            var expectedContactInfoId = Guid.NewGuid();
-            phoneBookRepository.Setup(x => x.AddContactInfoToContactPerson(contactInfo)).ReturnsAsync(expectedContactInfoId);
+            var expectedContactInfoDto = new ContactInfoDto{ContactPersonId= Guid.NewGuid()};
+            mapper.Setup(x => x.Map<ContactInfoDto>(contactInfo)).Returns(expectedContactInfoDto);
 
             var contactInfoAddDto = new ContactInfoAddDto { };
             mapper.Setup(x => x.Map<ContactInfo>(contactInfoAddDto)).Returns(contactInfo);
             var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
 
             //act
-            var contactInfoId = await phoneBookService.AddContactInfoToContactPerson(contactInfoAddDto);
+            var contactInfoDto = await phoneBookService.AddContactInfoToContactPerson(contactInfoAddDto);
 
             //assert
             phoneBookRepository.Verify(x => x.AddContactInfoToContactPerson(contactInfo));
             mapper.Verify(x => x.Map<ContactInfo>(contactInfoAddDto));
-            Assert.Equal(expectedContactInfoId, contactInfoId);
+            Assert.Equal(expectedContactInfoDto, contactInfoDto);
+        }
+
+        [Fact]
+        public async Task AddContactInfoToContactPerson_Should_Throw_Exception_When_ContactPerson_Is_Null()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+            var contactAddInfo = new ContactInfoAddDto { };
+            var contactInfo = new ContactInfo { };
+            var notFoundException = new NotFoundException("Contact person not found");
+            phoneBookRepository.Setup(x => x.AddContactInfoToContactPerson(contactInfo)).ThrowsAsync(notFoundException);
+            mapper.Setup(x => x.Map<ContactInfo>(contactAddInfo)).Returns(contactInfo);
+
+            //act           
+            Func<Task> act = () => phoneBookService.AddContactInfoToContactPerson(contactAddInfo);
+
+            //assert            
+            var exception = await Assert.ThrowsAsync<NotFoundException>(act);
+            Assert.Equal(Utilities.ErrorCodes.NotFound, exception.ErrorCode);
         }
 
         [Fact]
@@ -157,7 +178,7 @@ namespace PhoneBook.Api.Tests
         }
 
         [Fact]
-        public async Task GetContactPersonDetails_Should_Throw_Exception_ContactPerson_Is_Null()
+        public async Task GetContactPersonDetails_Should_Throw_Exception_When_ContactPerson_Is_Null()
         {
             //arrange
             var phoneBookRepository = new Mock<IPhoneBookRepository>();
