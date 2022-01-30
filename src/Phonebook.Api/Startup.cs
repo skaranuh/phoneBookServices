@@ -4,12 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PhoneBook.Api.DataContext;
 using PhoneBook.Api.Repositories.Implementations;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Implementations;
 using PhoneBook.Api.Services.Interfaces;
+using PhoneBook.Api.Utilities;
 
 namespace PhoneBook.Api
 {
@@ -39,10 +41,14 @@ namespace PhoneBook.Api
 
             services.AddScoped<IPhoneBookService, PhoneBookService>();
             services.AddScoped<IPhoneBookRepository, PhoneBookRepository>();
+            services.AddScoped<IExceptionHelper, ExceptionHelper>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            ILogger<JsonExceptionMiddleware> logger,
+            IExceptionHelper exceptionHelper)
         {
             if (env.IsDevelopment())
             {
@@ -50,6 +56,12 @@ namespace PhoneBook.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBook.Api v1"));
             }
+
+               app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                ExceptionHandler = new JsonExceptionMiddleware(logger, exceptionHelper).Invoke
+            });
+
 
             app.UseHttpsRedirection();
 

@@ -153,6 +153,7 @@ namespace PhoneBook.Api.Tests
             }
         }
 
+       
         public static IEnumerable<object[]> CreateContactPersonData
         {
             get

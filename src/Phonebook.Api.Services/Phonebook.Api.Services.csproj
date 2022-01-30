@@ -2,6 +2,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\PhoneBook.Api.Repositories\PhoneBook.Api.Repositories.csproj" />
 		<ProjectReference Include="..\PhoneBook.Api.Entities\PhoneBook.Api.Entities.csproj" />
+		<ProjectReference Include="..\PhoneBook.Api.Utilities\PhoneBook.Api.Utilities.csproj" />
 	</ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>

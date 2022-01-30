@@ -6,6 +6,8 @@ using PhoneBook.Api.Services.Dtos;
 using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Interfaces;
+using PhoneBook.Api.Utilities.Exceptions;
+
 namespace PhoneBook.Api.Services.Implementations
 {
     public class PhoneBookService : IPhoneBookService
@@ -33,7 +35,7 @@ namespace PhoneBook.Api.Services.Implementations
 
         public async Task<ContactPersonDetailsDto> GetContactPersonDetails(Guid contactPersonId)
         {
-           var contactPersonDetails= await _phoneBookRepository.GetContactPersonDetails(contactPersonId);
+           var contactPersonDetails= await _phoneBookRepository.GetContactPersonDetails(contactPersonId);         
            var contactPersonDto=_map.Map<ContactPersonDto>(contactPersonDetails);
            var contactInfoDto=_map.Map<IEnumerable<ContactInfoDto>>(contactPersonDetails.ContactInfo);
            var contactPersonDetailsDto=new ContactPersonDetailsDto{ContactPerson=contactPersonDto, ContactInfo=contactInfoDto};

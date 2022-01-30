@@ -3,11 +3,12 @@
 		<TargetFramework>net5.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10"/>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\PhoneBook.Api.Services\PhoneBook.Api.Services.csproj"/>
-		<ProjectReference Include="..\PhoneBook.Api.DataContext\PhoneBook.Api.DataContext.csproj"/>
+		<ProjectReference Include="..\PhoneBook.Api.Services\PhoneBook.Api.Services.csproj" />
+		<ProjectReference Include="..\PhoneBook.Api.DataContext\PhoneBook.Api.DataContext.csproj" />
+		<ProjectReference Include="..\PhoneBook.Api.Utilities\PhoneBook.Api.Utilities.csproj" />
 	</ItemGroup>
 </Project>
