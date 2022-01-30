@@ -120,7 +120,7 @@ namespace PhoneBook.Api.Tests
             var phoneBookService = new Mock<IPhoneBookService>();
             var phoneBookController = new PhoneBookController(phoneBookService.Object);
             var contactPersonId=Guid.NewGuid();
-            var contactPersonDetailsDto=new ContactPersonDetailsDto{ContactPerson=new ContactPersonDto(), ContactInfo= new List<ContactInfoDto>()};
+            var contactPersonDetailsDto=new ContactPersonDto{};
             phoneBookService.Setup(x=>x.GetContactPersonDetails(contactPersonId)).ReturnsAsync(contactPersonDetailsDto);
 
             //act

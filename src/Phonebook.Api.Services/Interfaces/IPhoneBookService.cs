@@ -13,6 +13,6 @@ namespace PhoneBook.Api.Services.Interfaces
         Task RemoveContactPerson(Guid contactInfoId);
         Task RemoveContactInfo(Guid contactInfoId);
         Task<IEnumerable<ContactPersonDto>> ListContactPersons();
-        Task<ContactPersonDetailsDto> GetContactPersonDetails(Guid contactPersonId);
+        Task<ContactPersonDto> GetContactPersonDetails(Guid contactPersonId);
     }
 }

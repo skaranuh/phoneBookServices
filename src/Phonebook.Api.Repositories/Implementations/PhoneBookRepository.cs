@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using PhoneBook.Api.DataContext;
 using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using PhoneBook.Api.Utilities.Exceptions;
 
@@ -40,9 +41,11 @@ namespace PhoneBook.Api.Repositories.Implementations
             return contactPerson.Id;
         }
 
-        public Task<ContactPerson> GetContactPersonDetails(Guid contactPersonId)
+        public async Task<ContactPerson> GetContactPersonDetails(Guid contactPersonId)
         {
-            throw new NotImplementedException();
+            var contactPerson = await _phoneBookDataContext.ContactPersons.Include(x=>x.ContactInfo).FirstOrDefaultAsync(x=>x.Id==contactPersonId);
+            if (contactPerson == null) { return null; }
+            return contactPerson;
         }
 
         public Task<IEnumerable<ContactPerson>> ListContactPersons()

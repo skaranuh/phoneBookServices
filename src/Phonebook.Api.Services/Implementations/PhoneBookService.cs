@@ -35,7 +35,7 @@ namespace PhoneBook.Api.Services.Implementations
             return contactPersonDto;
         }
 
-        public async Task<ContactPersonDetailsDto> GetContactPersonDetails(Guid contactPersonId)
+        public async Task<ContactPersonDto> GetContactPersonDetails(Guid contactPersonId)
         {
             var contactPersonDetails = await _phoneBookRepository.GetContactPersonDetails(contactPersonId);
             if (contactPersonDetails == null)
@@ -43,9 +43,7 @@ namespace PhoneBook.Api.Services.Implementations
                 throw new NotFoundException($"Contact person not found: Contact person id : {contactPersonId}");
             }
             var contactPersonDto = _map.Map<ContactPersonDto>(contactPersonDetails);
-            var contactInfoDto = _map.Map<IEnumerable<ContactInfoDto>>(contactPersonDetails.ContactInfo);
-            var contactPersonDetailsDto = new ContactPersonDetailsDto { ContactPerson = contactPersonDto, ContactInfo = contactInfoDto };
-            return contactPersonDetailsDto;
+            return contactPersonDto;
         }
 
         public async Task<IEnumerable<ContactPersonDto>> ListContactPersons()

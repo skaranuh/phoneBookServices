@@ -168,9 +168,9 @@ namespace PhoneBook.Api.Tests
 
             //assert
             phoneBookRepository.Verify(x => x.GetContactPersonDetails(contactPersonId));
-            Assert.Equal(contactPersonDto.Name, contactPersonDetails.ContactPerson.Name);
-            Assert.Equal(contactPersonDto.LastName, contactPersonDetails.ContactPerson.LastName);
-            Assert.Equal(contactPersonDto.Company, contactPersonDetails.ContactPerson.Company);
+            Assert.Equal(contactPersonDto.Name, contactPersonDetails.Name);
+            Assert.Equal(contactPersonDto.LastName, contactPersonDetails.LastName);
+            Assert.Equal(contactPersonDto.Company, contactPersonDetails.Company);
             foreach (var contactInfo in contactPersonDetails.ContactInfo)
             {
                 Assert.NotNull(contactPersonDto.ContactInfo.Where(x => x.Value == contactInfo.Value));
