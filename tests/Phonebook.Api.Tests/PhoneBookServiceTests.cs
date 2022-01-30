@@ -29,14 +29,16 @@ namespace PhoneBook.Api.Tests
             var contactPerson = new ContactPerson { Name = name, LastName = lastName, Company = company };
             var expectedContactPersonId = Guid.NewGuid();
             phoneBookRepository.Setup(x => x.CreateContactPerson(It.IsAny<ContactPerson>())).ReturnsAsync(expectedContactPersonId);
+            var contactPersonDtoExpected=new ContactPersonDto{Id=expectedContactPersonId,  Name = name, LastName = lastName, Company = company };
             mapper.Setup(x => x.Map<ContactPerson>(contactPersonCreateDto)).Returns(contactPerson);
+            mapper.Setup(x => x.Map<ContactPersonDto>(contactPerson)).Returns(contactPersonDtoExpected);
 
             //act
-            var contactPersonId = await phoneBookService.CreateContactPerson(contactPersonCreateDto);
+            var contactPersonDtoResult = await phoneBookService.CreateContactPerson(contactPersonCreateDto);
 
             //assert
             phoneBookRepository.Verify(x => x.CreateContactPerson(It.Is<ContactPerson>(x => x.Name == name && x.LastName == lastName && x.Company == company)));
-            Assert.Equal(expectedContactPersonId, contactPersonId);
+            Assert.Equal(contactPersonDtoExpected.Id, contactPersonDtoResult.Id);
         }
 
         [Fact]

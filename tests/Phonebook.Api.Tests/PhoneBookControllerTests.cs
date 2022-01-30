@@ -20,7 +20,8 @@ namespace PhoneBook.Api.Tests
             var phoneBookController = new PhoneBookController(phoneBookService.Object);
             var contactPersonCreateDto = new ContactPersonCreateDto { };
             var contactPersonId = Guid.NewGuid();
-            phoneBookService.Setup(x => x.CreateContactPerson(contactPersonCreateDto)).ReturnsAsync(contactPersonId);
+            var contactPersonDto=new ContactPersonDto{Id=contactPersonId};
+            phoneBookService.Setup(x => x.CreateContactPerson(contactPersonCreateDto)).ReturnsAsync(contactPersonDto);
 
             //act
             var actionResult = await phoneBookController.CreateContactPerson(contactPersonCreateDto);
@@ -29,7 +30,7 @@ namespace PhoneBook.Api.Tests
             //assert
             phoneBookService.Verify(x => x.CreateContactPerson(contactPersonCreateDto));
             Assert.Equal(200, okObjectResult.StatusCode);
-            Assert.Equal(contactPersonId, okObjectResult.Value);
+            Assert.Equal(contactPersonId, ((ContactPersonDto)okObjectResult.Value).Id);
         }
 
         [Fact]

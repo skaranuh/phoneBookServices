@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using PhoneBook.Api.Repositories.Implementations;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Implementations;
 using PhoneBook.Api.Services.Interfaces;
+using PhoneBook.Api.Services.Mappings;
 using PhoneBook.Api.Utilities;
 
 namespace PhoneBook.Api
@@ -34,7 +36,8 @@ namespace PhoneBook.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Api", Version = "v1" });
             });
 
-            services.AddAutoMapper(typeof(Startup));
+           
+            services.AddAutoMapper(typeof(MappingsProfile));
 
             services.AddDbContext<PhoneBookDataContext>(options =>
          options.UseNpgsql(Configuration.GetConnectionString("PhoneBookConnection")));
@@ -42,7 +45,7 @@ namespace PhoneBook.Api
             services.AddScoped<IPhoneBookService, PhoneBookService>();
             services.AddScoped<IPhoneBookRepository, PhoneBookRepository>();
             services.AddScoped<IExceptionHelper, ExceptionHelper>();
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
