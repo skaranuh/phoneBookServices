@@ -10,6 +10,7 @@ using Xunit;
 using System.Linq;
 using PhoneBook.Api.Entities.Enums;
 using PhoneBook.Api.Entities.Entities;
+using PhoneBook.Api.Utilities.Exceptions;
 
 namespace PhoneBook.Api.Tests
 {
@@ -153,7 +154,26 @@ namespace PhoneBook.Api.Tests
             }
         }
 
-       
+        [Fact]
+        public async Task GetContactPersonDetails_Should_Throw_Exception_ContactPerson_Is_Null()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+            var contactPersonId = Guid.NewGuid();
+            ContactPerson contactPerson = null;
+
+            phoneBookRepository.Setup(x => x.GetContactPersonDetails(contactPersonId)).ReturnsAsync(contactPerson);
+
+            //act           
+            Func<Task> act = () => phoneBookService.GetContactPersonDetails(contactPersonId);
+
+            //assert            
+            var exception = await Assert.ThrowsAsync<NotFoundException>(act);
+            Assert.Equal(Utilities.ErrorCodes.NotFound, exception.ErrorCode);
+            phoneBookRepository.Verify(x => x.GetContactPersonDetails(contactPersonId));
+        }
         public static IEnumerable<object[]> CreateContactPersonData
         {
             get
