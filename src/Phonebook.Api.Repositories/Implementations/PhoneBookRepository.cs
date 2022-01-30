@@ -64,9 +64,15 @@ namespace PhoneBook.Api.Repositories.Implementations
             await _phoneBookDataContext.SaveChangesAsync();
         }
 
-        public Task RemoveContactPerson(Guid contactPersonId)
+        public async Task RemoveContactPerson(Guid contactPersonId)
         {
-            throw new NotImplementedException();
+            var contactPerson = _phoneBookDataContext.ContactPersons.FirstOrDefault(x => x.Id == contactPersonId);
+            if (contactPerson == null)
+            {
+                throw new NotFoundException($"Contact person not found : {contactPersonId}");
+            }
+            _phoneBookDataContext.ContactPersons.Remove(contactPerson);
+            await _phoneBookDataContext.SaveChangesAsync();
         }
     }
 }
