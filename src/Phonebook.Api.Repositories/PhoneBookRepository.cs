@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PhoneBook.Api.Entities;
+using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 
 namespace PhoneBook.Api.Repositories

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using PhoneBook.Api.Services.Dtos;
-using PhoneBook.Api.Services.Interfaces;
+using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
-using PhoneBook.Api.Entities;
-
+using PhoneBook.Api.Services.Interfaces;
 namespace PhoneBook.Api.Services.Implementations
 {
     public class PhoneBookService : IPhoneBookService

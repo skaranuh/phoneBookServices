@@ -1,6 +1,6 @@
 using System;
 
-namespace PhoneBook.Api.Entities.Base
+namespace PhoneBook.Api.Entities.Entities.Base
 {
     public class BaseEntity
     {

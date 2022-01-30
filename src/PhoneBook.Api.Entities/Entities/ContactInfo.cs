@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using PhoneBook.Api.Entities.Base;
+using PhoneBook.Api.Entities.Entities.Base;
 using PhoneBook.Api.Entities.Enums;
 
-namespace PhoneBook.Api.Entities
+namespace PhoneBook.Api.Entities.Entities
 {
     public class ContactInfo : BaseEntity
     {
@@ -13,7 +13,7 @@ namespace PhoneBook.Api.Entities
         [Required]
         public ContactInfoType ContactInfoType { get; set; }
         [Required]
-        [StringLength(100)]
+        [StringLength(Constants.ContactInfoLength)]
         public string Value { get; set; }
     }
 }

@@ -8,8 +8,8 @@ using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Implementations;
 using Xunit;
 using System.Linq;
-using PhoneBook.Api.Entities;
 using PhoneBook.Api.Entities.Enums;
+using PhoneBook.Api.Entities.Entities;
 
 namespace PhoneBook.Api.Tests
 {
@@ -133,7 +133,7 @@ namespace PhoneBook.Api.Tests
             var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
             var contactPersonId = Guid.NewGuid();
             var contactPerson = new ContactPerson { ContactInfo = new List<ContactInfo> { new ContactInfo { ContactInfoType = ContactInfoType.Email, Value = "dummy@Email.com" } }, Name = "dummyName", LastName = "dummyLastName", Company = "dummyCompany" };
-            var contactPersonDto = new ContactPersonDto { ContactInfo=new List<ContactInfo>(),  Name = contactPerson.Name, LastName = contactPerson.LastName, Company = contactPerson.Company };
+            var contactPersonDto = new ContactPersonDto { ContactInfo = new List<ContactInfo>(), Name = contactPerson.Name, LastName = contactPerson.LastName, Company = contactPerson.Company };
 
             mapper.Setup(x => x.Map<ContactPersonDto>(contactPerson)).Returns(contactPersonDto);
 
@@ -149,8 +149,8 @@ namespace PhoneBook.Api.Tests
             Assert.Equal(contactPersonDto.Company, contactPersonDetails.ContactPerson.Company);
             foreach (var contactInfo in contactPersonDetails.ContactInfo)
             {
-               Assert.NotNull(contactPersonDto.ContactInfo.Where(x=>x.Value==contactInfo.Value));
-            }         
+                Assert.NotNull(contactPersonDto.ContactInfo.Where(x => x.Value == contactInfo.Value));
+            }
         }
 
         public static IEnumerable<object[]> CreateContactPersonData

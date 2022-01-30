@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using PhoneBook.Api.Services.Dtos;
 
 namespace PhoneBook.Api.Services.Dtos
 {
