@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 
-namespace PhoneBook.Api.Repositories
+namespace PhoneBook.Api.Repositories.Implementations
 {
     public class PhoneBookRepository : IPhoneBookRepository
     {
