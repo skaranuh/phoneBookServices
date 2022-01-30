@@ -28,12 +28,12 @@ namespace PhoneBook.Api
                 context.Response.StatusCode = (int)_exceptionHelper.GetErrorStatusCode(contextFeature.Error);
                 context.Response.ContentType = "application/json";
                 var errorMessage = _exceptionHelper.GetErrorMessage(contextFeature.Error);
+                _logger.LogError(contextFeature.Error, errorMessage);
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new Error(errorCode, errorMessage)
                 , new JsonSerializerOptions
                 {
-                    Converters ={new JsonStringEnumConverter()
-    }
+                    Converters ={new JsonStringEnumConverter()    }
                 }));
             }
         }
