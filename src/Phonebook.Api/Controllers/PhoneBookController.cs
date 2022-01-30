@@ -15,7 +15,7 @@ namespace PhoneBook.Api.Controllers
         {
             _phoneBookService = phoneBookService;
         }
-       
+
         [HttpPost]
         [Route("contactPersons")]
         public async Task<IActionResult> CreateContactPerson(ContactPersonCreateDto contactPersonCreateDto)
@@ -23,7 +23,7 @@ namespace PhoneBook.Api.Controllers
             var contactPersonId = await _phoneBookService.CreateContactPerson(contactPersonCreateDto);
             return Ok(contactPersonId);
         }
-       
+
         [HttpPost]
         [Route("contactInfos")]
         public async Task<IActionResult> AddContactInfoToContactPerson(ContactInfoAddDto contactInfoAddDto)
@@ -31,7 +31,7 @@ namespace PhoneBook.Api.Controllers
             var contactInfoId = await _phoneBookService.AddContactInfoToContactPerson(contactInfoAddDto);
             return Ok(contactInfoId);
         }
-       
+
         [HttpDelete]
         [Route("contactPersons/{contactPersonId:guid}")]
         public async Task<IActionResult> RemoveContactPerson(Guid contactPersonId)
@@ -47,15 +47,15 @@ namespace PhoneBook.Api.Controllers
             await _phoneBookService.RemoveContactInfo(contactInfoId);
             return Ok();
         }
-        
+
         [HttpGet]
         [Route("contactPersons")]
-        public async Task<IActionResult> ListContactPersons()
+        public async Task<IActionResult> ListContactPersons(int pageNumber, int pageSize)
         {
-            var contactPersons = await _phoneBookService.ListContactPersons();
+            var contactPersons = await _phoneBookService.ListContactPersons(pageNumber, pageSize);
             return Ok(contactPersons);
         }
-       
+
         [HttpGet]
         [Route("contactPersons/{contactPersonId:guid}")]
         public async Task<IActionResult> GetContactPersonDetails(Guid contactPersonId)

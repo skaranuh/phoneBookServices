@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PhoneBook.Api.Entities.Entities;
+using X.PagedList;
 
 namespace PhoneBook.Api.Repositories.Interfaces
 {
@@ -11,7 +12,7 @@ namespace PhoneBook.Api.Repositories.Interfaces
         Task<Guid> AddContactInfoToContactPerson(ContactInfo contactInfo);
         Task RemoveContactPerson(Guid contactPersonId);
         Task RemoveContactInfo(Guid contactInfoId);
-        Task<IEnumerable<ContactPerson>> ListContactPersons();
+        Task<IPagedList<ContactPerson>> ListContactPersons(int pageNumber, int pageSize);
         Task<ContactPerson> GetContactPersonDetails(Guid contactPersonId);
     }
 }

@@ -7,6 +7,7 @@ using PhoneBook.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using PhoneBook.Api.Utilities.Exceptions;
+using X.PagedList;
 
 namespace PhoneBook.Api.Repositories.Implementations
 {
@@ -48,9 +49,10 @@ namespace PhoneBook.Api.Repositories.Implementations
             return contactPerson;
         }
 
-        public Task<IEnumerable<ContactPerson>> ListContactPersons()
+        public async Task<IPagedList<ContactPerson>> ListContactPersons(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+             var contactPersons = await _phoneBookDataContext.ContactPersons.AsQueryable().ToPagedListAsync(pageNumber, pageSize);
+             return contactPersons;
         }
 
         public async Task RemoveContactInfo(Guid contactInfoId)

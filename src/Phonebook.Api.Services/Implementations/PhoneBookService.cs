@@ -7,6 +7,9 @@ using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Interfaces;
 using PhoneBook.Api.Utilities.Exceptions;
+using X.PagedList;
+using System.Linq;
+using System.Text.Json;
 
 namespace PhoneBook.Api.Services.Implementations
 {
@@ -46,11 +49,18 @@ namespace PhoneBook.Api.Services.Implementations
             return contactPersonDto;
         }
 
-        public async Task<IEnumerable<ContactPersonDto>> ListContactPersons()
+        public async Task<PageListToSerialize<ContactPersonDto>> ListContactPersons(int pageNumber, int pageSize)
         {
-            var contactPersons = await _phoneBookRepository.ListContactPersons();
+            var contactPersons = await _phoneBookRepository.ListContactPersons(pageNumber, pageSize);
             var contactPersonDtos = _map.Map<IEnumerable<ContactPersonDto>>(contactPersons);
-            return contactPersonDtos;
+            var pageListToSerialize = new PageListToSerialize<ContactPersonDto>
+            {
+                List = contactPersonDtos,
+                MetaData = contactPersons.GetMetaData()
+            };
+            
+
+            return pageListToSerialize;
         }
 
         public async Task RemoveContactInfo(Guid contactInfoId)

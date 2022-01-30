@@ -11,6 +11,9 @@ using System.Linq;
 using PhoneBook.Api.Entities.Enums;
 using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Utilities.Exceptions;
+using X.PagedList;
+using System.Text.Json;
+using PhoneBook.Api.Services;
 
 namespace PhoneBook.Api.Tests
 {
@@ -173,17 +176,26 @@ namespace PhoneBook.Api.Tests
                 contactPersonDtos.Add(new ContactPersonDto { Id = id, Name = $"Name-{i}", LastName = $"LastName-{i}", Company = $"Company-{i}" });
             }
 
-            phoneBookRepository.Setup(x => x.ListContactPersons()).ReturnsAsync(contactPersons);
-            mapper.Setup(x => x.Map<IEnumerable<ContactPersonDto>>(contactPersons)).Returns(contactPersonDtos);
+            var pageNumber = 1;
+            var pageSize = 1;
+            var contactPersonsPaged = new PagedList<ContactPerson>(contactPersons.AsQueryable(), pageNumber, pageSize);
+
+            var contactPersonPagedToSerialize = new PageListToSerialize<ContactPersonDto>
+            {
+                List = contactPersonDtos,
+                MetaData = contactPersonsPaged.GetMetaData()
+            };
+
+            phoneBookRepository.Setup(x => x.ListContactPersons(pageNumber, pageSize)).ReturnsAsync(contactPersonsPaged);
+            mapper.Setup(x => x.Map<IEnumerable<ContactPersonDto>>(contactPersonsPaged)).Returns(contactPersonDtos);
             var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
 
             //act
-            var actualContactPersonDtos = await phoneBookService.ListContactPersons();
+            var actualContactPersonDtos = await phoneBookService.ListContactPersons(pageNumber, pageSize);
 
             //assert
-            phoneBookRepository.Verify(x => x.ListContactPersons());
-            mapper.Verify(x => x.Map<IEnumerable<ContactPersonDto>>(contactPersons));
-            Assert.Equal(contactPersonDtos, actualContactPersonDtos);
+            phoneBookRepository.Verify(x => x.ListContactPersons(pageNumber, pageSize));
+            Assert.Equal(contactPersonPagedToSerialize.List.Count(), actualContactPersonDtos.List.Count());
         }
 
         [Fact]
