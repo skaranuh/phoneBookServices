@@ -11,5 +11,11 @@ namespace PhoneBook.Api.DataContext
         }
         public DbSet<ContactInfo> ContactInfos { get; set; }
         public DbSet<ContactPerson> ContactPersons { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ContactInfo>()
+               .HasIndex(i => new { i.ContactInfoType, i.ContactPersonId, i.Value })
+               .IsUnique();
+        }
     }
 }

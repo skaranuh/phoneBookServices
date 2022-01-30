@@ -37,11 +37,10 @@ namespace PhoneBook.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Api", Version = "v1" });
             });
 
-
             services.AddAutoMapper(typeof(MappingsProfile));
 
             services.AddDbContext<PhoneBookDataContext>(options =>
-         options.UseNpgsql(Configuration.GetConnectionString("PhoneBookConnection")));
+         options.UseNpgsql(Configuration.GetConnectionString("PhoneBookConnection"), x => x.MigrationsAssembly("PhoneBook.Api.DataContext")));
 
             services.AddScoped<IPhoneBookService, PhoneBookService>();
             services.AddScoped<IPhoneBookRepository, PhoneBookRepository>();
@@ -53,7 +52,6 @@ namespace PhoneBook.Api
                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                    options.JsonSerializerOptions.IgnoreNullValues = true;
                });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PhoneBook.Api.DataContext;
@@ -9,9 +10,10 @@ using PhoneBook.Api.DataContext;
 namespace PhoneBook.Api.DataContext.Migrations
 {
     [DbContext(typeof(PhoneBookDataContext))]
-    partial class PhoneBookDataContextModelSnapshot : ModelSnapshot
+    [Migration("20220130183848_add-composite-index-on-contact-info")]
+    partial class addcompositeindexoncontactinfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
