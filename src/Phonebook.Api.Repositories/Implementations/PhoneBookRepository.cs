@@ -43,7 +43,7 @@ namespace PhoneBook.Api.Repositories.Implementations
 
         public async Task<ContactPerson> GetContactPersonDetails(Guid contactPersonId)
         {
-            var contactPerson = await _phoneBookDataContext.ContactPersons.Include(x=>x.ContactInfo).FirstOrDefaultAsync(x=>x.Id==contactPersonId);
+            var contactPerson = await _phoneBookDataContext.ContactPersons.Include(x => x.ContactInfo).FirstOrDefaultAsync(x => x.Id == contactPersonId);
             if (contactPerson == null) { return null; }
             return contactPerson;
         }
@@ -53,9 +53,15 @@ namespace PhoneBook.Api.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public Task RemoveContactInfo(Guid contactInfoId)
+        public async Task RemoveContactInfo(Guid contactInfoId)
         {
-            throw new NotImplementedException();
+            var contactInfo = _phoneBookDataContext.ContactInfos.FirstOrDefault(x => x.Id == contactInfoId);
+            if (contactInfo == null)
+            {
+                throw new NotFoundException($"Contact info not found : {contactInfoId}");
+            }
+            _phoneBookDataContext.ContactInfos.Remove(contactInfo);
+            await _phoneBookDataContext.SaveChangesAsync();
         }
 
         public Task RemoveContactPerson(Guid contactPersonId)

@@ -48,7 +48,7 @@ namespace PhoneBook.Api.Tests
             var phoneBookRepository = new Mock<IPhoneBookRepository>();
             var mapper = new Mock<IMapper>();
             var contactInfo = new ContactInfo { };
-            var expectedContactInfoDto = new ContactInfoDto{ContactPersonId= Guid.NewGuid()};
+            var expectedContactInfoDto = new ContactInfoDto { ContactPersonId = Guid.NewGuid() };
             mapper.Setup(x => x.Map<ContactInfoDto>(contactInfo)).Returns(expectedContactInfoDto);
 
             var contactInfoAddDto = new ContactInfoAddDto { };
@@ -115,6 +115,24 @@ namespace PhoneBook.Api.Tests
 
             //assert
             phoneBookRepository.Verify(x => x.RemoveContactInfo(contactInfoId));
+        }
+
+        [Fact]
+        public async Task RemoveContactInfo_Should_Throw_Exception_When_Repository_Method_Throws_Exception()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+            var contactInfoId = Guid.NewGuid();
+            var notFoundException = new NotFoundException("Contact person not found");
+            phoneBookRepository.Setup(x => x.RemoveContactInfo(contactInfoId)).ThrowsAsync(notFoundException);
+            //act           
+            Func<Task> act = () => phoneBookService.RemoveContactInfo(contactInfoId);
+
+            //assert            
+            var exception = await Assert.ThrowsAsync<NotFoundException>(act);
+            Assert.Equal(Utilities.ErrorCodes.NotFound, exception.ErrorCode);
         }
 
         [Fact]
