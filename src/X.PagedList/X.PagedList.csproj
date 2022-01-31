@@ -8,10 +8,11 @@
     <AssemblyVersion>8.1.0</AssemblyVersion>
     <FileVersion>8.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/dncuug/X.PagedList</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/dncuug/X.PagedList/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dncuug/X.PagedList.git</RepositoryUrl>
     <Description>Library for easily paging through any IEnumerable/IQueryable in .NET and .NET Core</Description>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl>https://ru.gravatar.com/userimage/8071071/f2dc08ee7e4016451f64a7ae9cffd110.png?size=200</PackageIconUrl>
     <TargetFramework>netstandard2.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
@@ -23,6 +24,8 @@
     <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
     <PackageReference Include="System.Linq.Expressions" Version="4.3.0" Condition="'$(TargetFramework)' == 'netstandard1.1'" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" Condition="'$(TargetFramework)' == 'netstandard1.1'" />
+    <None Include="images\icon.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="License.txt" Pack="true" Visible="false" PackagePath=""/>
   </ItemGroup>
 
 </Project>
