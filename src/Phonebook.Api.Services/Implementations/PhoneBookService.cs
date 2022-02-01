@@ -49,6 +49,11 @@ namespace PhoneBook.Api.Services.Implementations
             return contactPersonDto;
         }
 
+        public Task<IEnumerable<Report>> GetReportData()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<PageListToSerialize<ContactPersonDto>> ListContactPersons(int pageNumber, int pageSize)
         {
             var contactPersons = await _phoneBookRepository.ListContactPersons(pageNumber, pageSize);

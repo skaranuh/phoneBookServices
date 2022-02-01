@@ -11,6 +11,7 @@ namespace PhoneBook.Api.DataContext
         }
         public DbSet<ContactInfo> ContactInfos { get; set; }
         public DbSet<ContactPerson> ContactPersons { get; set; }
+        public DbSet<Report> Reports { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ContactInfo>()

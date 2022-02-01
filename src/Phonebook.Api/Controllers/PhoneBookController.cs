@@ -63,5 +63,13 @@ namespace PhoneBook.Api.Controllers
             var contactPersonDetails = await _phoneBookService.GetContactPersonDetails(contactPersonId);
             return Ok(contactPersonDetails);
         }
+
+        [HttpGet]
+        [Route("report}")]
+        public async Task<IActionResult> GetReportData()
+        {
+            var report = await _phoneBookService.GetReportData();
+            return Ok(report);
+        }
     }
 }

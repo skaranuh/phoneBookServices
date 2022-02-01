@@ -15,5 +15,6 @@ namespace PhoneBook.Api.Services.Interfaces
         Task RemoveContactInfo(Guid contactInfoId);
         Task<PageListToSerialize<ContactPersonDto>> ListContactPersons(int pageNumber, int pageSize);
         Task<ContactPersonDto> GetContactPersonDetails(Guid contactPersonId);
+        Task<IEnumerable<Report>> GetReportData();
     }
 }
