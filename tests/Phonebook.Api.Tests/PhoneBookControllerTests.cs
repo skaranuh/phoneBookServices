@@ -118,7 +118,7 @@ namespace PhoneBook.Api.Tests
             var phoneBookController = new PhoneBookController(phoneBookService.Object);
 
             //act
-            var actionResult = await phoneBookController.ListContactPersons(pageNumber, pageSize);
+             var actionResult = await phoneBookController.ListContactPersons(pageNumber, pageSize);
             var okObjectResult = actionResult as OkObjectResult;
 
             //assert
@@ -147,23 +147,6 @@ namespace PhoneBook.Api.Tests
             Assert.Equal(contactPersonDetailsDto, okObjectResult.Value);
         }
 
-        [Fact]
-        public async Task GetContactPersonDetails_Should_Return_Report_Data()
-        {
-            //arrange
-            var phoneBookService = new Mock<IPhoneBookService>();
-            var phoneBookController = new PhoneBookController(phoneBookService.Object);
-            var reportData = new List<Report>();
-            phoneBookService.Setup(x => x.GetReportData()).ReturnsAsync(reportData);
-
-            //act
-            var actionResult = await phoneBookController.GetReportData();
-            var okObjectResult = actionResult as OkObjectResult;
-
-            //assert
-            phoneBookService.Verify(x => x.GetReportData());
-            Assert.Equal(200, okObjectResult.StatusCode);
-            Assert.Equal(reportData, okObjectResult.Value);
-        }
+        
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PhoneBook.Api.Entities.Dtos;
 using PhoneBook.Api.Entities.Entities;
 using X.PagedList;
 
@@ -14,5 +15,6 @@ namespace PhoneBook.Api.Repositories.Interfaces
         Task RemoveContactInfo(Guid contactInfoId);
         Task<IPagedList<ContactPerson>> ListContactPersons(int pageNumber, int pageSize);
         Task<ContactPerson> GetContactPersonDetails(Guid contactPersonId);
+        Task<IPagedList<ReportDto>> GetReportData(int pageNumber,int pageSize);
     }
 }

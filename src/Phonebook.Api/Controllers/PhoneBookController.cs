@@ -65,10 +65,10 @@ namespace PhoneBook.Api.Controllers
         }
 
         [HttpGet]
-        [Route("report}")]
-        public async Task<IActionResult> GetReportData()
+        [Route("report")]
+        public async Task<IActionResult> GetReportData(int pageNumber, int pageSize)
         {
-            var report = await _phoneBookService.GetReportData();
+            var report = await  _phoneBookService.GetReportData(pageNumber, pageSize);
             return Ok(report);
         }
     }

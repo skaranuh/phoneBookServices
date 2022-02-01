@@ -10,6 +10,7 @@ using PhoneBook.Api.Utilities.Exceptions;
 using X.PagedList;
 using System.Linq;
 using System.Text.Json;
+using PhoneBook.Api.Entities.Dtos;
 
 namespace PhoneBook.Api.Services.Implementations
 {
@@ -49,13 +50,33 @@ namespace PhoneBook.Api.Services.Implementations
             return contactPersonDto;
         }
 
-        public Task<IEnumerable<Report>> GetReportData()
+        public async Task<PageListToSerialize<ReportDto>> GetReportData(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            if (pageNumber == 0)
+            { pageNumber = 1; }
+
+            if (pageSize == 0)
+            { pageSize = 100; }
+
+            var report = await _phoneBookRepository.GetReportData(pageNumber, pageSize);
+            var reportDtos = _map.Map<IEnumerable<ReportDto>>(report);
+            var pageListToSerialize = new PageListToSerialize<ReportDto>
+            {
+                List = reportDtos,
+                MetaData = report.GetMetaData()
+            };
+
+            return pageListToSerialize;
         }
 
         public async Task<PageListToSerialize<ContactPersonDto>> ListContactPersons(int pageNumber, int pageSize)
         {
+            if (pageNumber == 0)
+            { pageNumber = 1; }
+
+            if (pageSize == 0)
+            { pageSize = 100; }
+
             var contactPersons = await _phoneBookRepository.ListContactPersons(pageNumber, pageSize);
             var contactPersonDtos = _map.Map<IEnumerable<ContactPersonDto>>(contactPersons);
             var pageListToSerialize = new PageListToSerialize<ContactPersonDto>
@@ -63,7 +84,6 @@ namespace PhoneBook.Api.Services.Implementations
                 List = contactPersonDtos,
                 MetaData = contactPersons.GetMetaData()
             };
-            
 
             return pageListToSerialize;
         }

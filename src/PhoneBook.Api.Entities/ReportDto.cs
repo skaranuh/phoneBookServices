@@ -1,6 +1,8 @@
-namespace PhoneBook.Api.Entities.Entities{
 
-    public class Report
+
+namespace PhoneBook.Api.Entities.Dtos{
+
+    public class ReportDto
     {
         public int PersonsCount { get; set; }
         public int PhoneNumbersCount { get; set; }
