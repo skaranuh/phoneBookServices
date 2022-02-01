@@ -14,6 +14,7 @@ using PhoneBook.Api.Utilities.Exceptions;
 using X.PagedList;
 using System.Text.Json;
 using PhoneBook.Api.Services;
+using PhoneBook.Api.Entities.Dtos;
 
 namespace PhoneBook.Api.Tests
 {
@@ -247,6 +248,48 @@ namespace PhoneBook.Api.Tests
             Assert.Equal(Utilities.ErrorCodes.NotFound, exception.ErrorCode);
             phoneBookRepository.Verify(x => x.GetContactPersonDetails(contactPersonId));
         }
+
+
+        [Fact]
+        public async Task GetReport_Should_Return_Report_Data()
+        {
+            //arrange
+            var phoneBookRepository = new Mock<IPhoneBookRepository>();
+            var mapper = new Mock<IMapper>();
+            var phoneBookService = new PhoneBookService(phoneBookRepository.Object, mapper.Object);
+            var pageNumber = 1;
+            var pageSize = 1;
+          
+            var reportDtos = new List<ReportDto>();
+
+            var reportDtosCount = 10;
+            for (var i = 0; i < reportDtosCount; i++)
+            {
+                var id = Guid.NewGuid();
+                reportDtos.Add(new ReportDto { Location = $"location-{i}", PersonsCount = 1, PhoneNumbersCount = 2 });
+            }
+
+            var reportPaged = new PagedList<ReportDto>(reportDtos, pageNumber, pageSize);
+
+            var reportPagedToSerialize = new PageListToSerialize<ReportDto>
+            {
+                List = reportDtos,
+                MetaData = reportPaged.GetMetaData()
+            };
+
+            phoneBookRepository.Setup(x => x.GetReportData(pageNumber, pageSize)).ReturnsAsync(reportPaged);
+            mapper.Setup(x => x.Map<IEnumerable<ReportDto>>(reportPaged)).Returns(reportDtos);
+
+            //act
+            var reportData = await phoneBookService.GetReportData(pageNumber, pageSize);
+
+            //assert
+
+            phoneBookRepository.Verify(x => x.GetReportData(pageNumber, pageSize));
+
+            Assert.Equal(reportPagedToSerialize.List.Count(), reportData.List.Count());
+        }
+
         public static IEnumerable<object[]> CreateContactPersonData
         {
             get
