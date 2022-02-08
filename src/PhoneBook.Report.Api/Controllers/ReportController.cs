@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PhoneBook.Report.Api.Services.Dtos;
+using PhoneBook.Report.Api.Services.Interfaces;
 
 namespace PhoneBook.Report.Api.Controllers
 {
@@ -11,11 +13,16 @@ namespace PhoneBook.Report.Api.Controllers
     [Route("[controller]")]
     public class ReportController : ControllerBase
     {
-        
-        public ReportController()
+        private readonly IReportService _reportService;
+        public ReportController(IReportService reportService)
         {
-        
+            _reportService = reportService;
         }
-              
+
+        public async Task<IActionResult> CreateReportRequest()
+        {
+            var response = await _reportService.CreateReportRequest();
+            return Ok(response);
+        }
     }
 }
