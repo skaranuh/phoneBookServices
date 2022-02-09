@@ -24,5 +24,11 @@ namespace PhoneBook.Report.Api.Controllers
             var response = await _reportService.CreateReportRequest();
             return Ok(response);
         }
+
+        public async Task<IActionResult> ListReportRequests()
+        {
+             var response = await _reportService.ListReportRequests();
+            return Ok(response);
+        }
     }
 }
