@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -26,6 +27,25 @@ namespace PhoneBook.Report.Api.Tests
             var okObjectResult = actionResult as OkObjectResult;
 
             Assert.Equal(okObjectResult.Value, reportResponseDto);
+        }
+
+        [Fact]
+        public async Task ListReportRequests_Should_List_Report_Requests()
+        {
+            //arrange
+            var reportService = new Mock<IReportService>();
+            var reportRequests = new List<ReportResponseDto>();
+            reportService.Setup(x => x.ListReportRequests()).ReturnsAsync(reportRequests);
+            var reportController = new ReportController(reportService.Object);
+
+            //act
+            var actionResult = await reportController.ListReportRequests();
+            var okObjectResult = actionResult as OkObjectResult;
+
+            //assert
+            reportService.Verify(x => x.ListReportRequests());
+            Assert.Equal(reportRequests, okObjectResult.Value);
+            Assert.Equal(200, okObjectResult.StatusCode);
         }
     }
 }
