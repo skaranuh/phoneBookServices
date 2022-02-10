@@ -79,14 +79,14 @@ namespace PhoneBook.Report.Api.Tests
             var reportRequestsPagedList = new PagedList<ReportEntity>(reportRequests.AsQueryable(), pageNumber, pageSize);
 
             var reportRequestDtos = new List<ReportResponseDto> { new ReportResponseDto { Id = Guid.NewGuid(), RequestDate = DateTime.Now, Status = Entities.Enums.ReportStatus.Pending } };
-            reportRepository.Setup(x => x.ListReportRequests()).ReturnsAsync(reportRequestsPagedList);
+            reportRepository.Setup(x => x.ListReportRequests(pageNumber, pageSize)).ReturnsAsync(reportRequestsPagedList);
             mapper.Setup(x => x.Map<IEnumerable<ReportResponseDto>>(reportRequests)).Returns(reportRequestDtos);
 
             //act
-            var reports = await reportService.ListReportRequests();
+            var reports = await reportService.ListReportRequests(pageNumber, pageSize);
 
             //assert
-            reportRepository.Verify(x => x.ListReportRequests());
+            reportRepository.Verify(x => x.ListReportRequests(pageNumber, pageSize));
             Assert.Equal(reportRequestsPagedList.Count, reports.List.Count());
         }
     }

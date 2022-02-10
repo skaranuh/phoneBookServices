@@ -8,6 +8,6 @@ namespace PhoneBook.Report.Api.Services.Interfaces
     public interface IReportService
     {
         Task<ReportResponseDto> CreateReportRequest();
-        Task<PageListToSerialize<ReportResponseDto>> ListReportRequests();
+        Task<PageListToSerialize<ReportResponseDto>> ListReportRequests(int pageNumber, int pageSize);
     }
 }
