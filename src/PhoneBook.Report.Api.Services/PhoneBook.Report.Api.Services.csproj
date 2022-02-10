@@ -1,7 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\PhoneBook.Report.Api.Repositories\PhoneBook.Report.Api.Repositories.csproj"/>
+		<ProjectReference Include="..\PhoneBook.Report.Api.Entities\PhoneBook.Report.Api.Entities.csproj"/>
+	</ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1"/>
+	</ItemGroup>
 </Project>

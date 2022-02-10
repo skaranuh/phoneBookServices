@@ -1,4 +1,4 @@
-namespace PhoneBook.Report.Api.Services.Enums
+namespace PhoneBook.Report.Api.Entities.Enums
 {
     public enum ReportStatus
     {
