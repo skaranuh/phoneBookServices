@@ -37,15 +37,17 @@ namespace PhoneBook.Report.Api.Tests
             //arrange
             var reportService = new Mock<IReportService>();
             var reportRequests = new PageListToSerialize<ReportResponseDto>();
-            reportService.Setup(x => x.ListReportRequests()).ReturnsAsync(reportRequests);
+             var pageNumber = 1;
+            var pageSize = 1;
+            reportService.Setup(x => x.ListReportRequests(pageNumber, pageSize)).ReturnsAsync(reportRequests);
             var reportController = new ReportController(reportService.Object);
 
             //act
-            var actionResult = await reportController.ListReportRequests();
+            var actionResult = await reportController.ListReportRequests(pageNumber, pageSize);
             var okObjectResult = actionResult as OkObjectResult;
 
             //assert
-            reportService.Verify(x => x.ListReportRequests());
+            reportService.Verify(x => x.ListReportRequests(pageNumber, pageSize));
             Assert.Equal(reportRequests, okObjectResult.Value);
             Assert.Equal(200, okObjectResult.StatusCode);
         }

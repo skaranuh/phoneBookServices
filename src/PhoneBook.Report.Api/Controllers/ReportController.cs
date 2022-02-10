@@ -25,9 +25,9 @@ namespace PhoneBook.Report.Api.Controllers
             return Ok(response);
         }
 
-        public async Task<IActionResult> ListReportRequests()
+        public async Task<IActionResult> ListReportRequests(int pageNumber, int pageSize)
         {
-             var response = await _reportService.ListReportRequests();
+             var response = await _reportService.ListReportRequests(pageNumber, pageSize);
             return Ok(response);
         }
     }
