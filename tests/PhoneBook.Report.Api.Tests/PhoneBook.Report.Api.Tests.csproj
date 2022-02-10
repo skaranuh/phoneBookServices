@@ -19,5 +19,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\PhoneBook.Report.Api\PhoneBook.Report.Api.csproj" />
 		<ProjectReference Include="..\..\src\PhoneBook.Report.Api.Entities\PhoneBook.Report.Api.Entities.csproj" />
+		<ProjectReference Include="..\..\src\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj" />
+		<ProjectReference Include="..\..\src\X.PagedList\X.PagedList.csproj" />
 	</ItemGroup>
 </Project>

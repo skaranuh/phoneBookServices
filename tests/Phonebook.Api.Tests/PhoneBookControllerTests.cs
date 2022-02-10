@@ -12,6 +12,7 @@ using X.PagedList;
 using System.Linq;
 using System.Text.Json;
 using PhoneBook.Api.Services;
+using PhoneBook.Common.Dtos;
 
 namespace PhoneBook.Api.Tests
 {

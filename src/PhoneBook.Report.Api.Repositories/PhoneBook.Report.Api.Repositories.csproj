@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhoneBook.Report.Api.Entities\PhoneBook.Report.Api.Entities.csproj" />
+    <ProjectReference Include="..\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj" />
+    <ProjectReference Include="..\X.PagedList\X.PagedList.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

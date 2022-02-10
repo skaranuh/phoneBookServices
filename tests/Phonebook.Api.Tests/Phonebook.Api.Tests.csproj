@@ -22,5 +22,6 @@
 		<ProjectReference Include="..\..\src\PhoneBook.Api\PhoneBook.Api.csproj" />
 		<ProjectReference Include="..\..\src\PhoneBook.Api.Entities\PhoneBook.Api.Entities.csproj" />
 		<ProjectReference Include="..\..\src\PhoneBook.Api.Utilities\PhoneBook.Api.Utilities.csproj" />
+		<ProjectReference Include="..\..\src\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj" />
 	</ItemGroup>
 </Project>

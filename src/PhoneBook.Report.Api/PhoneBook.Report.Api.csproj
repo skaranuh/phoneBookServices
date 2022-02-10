@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhoneBook.Report.Api.Services\PhoneBook.Report.Api.Services.csproj" />
+    <ProjectReference Include="..\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

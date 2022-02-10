@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using PhoneBook.Common.Dtos;
 using PhoneBook.Report.Api.Repositories.Interfaces;
 using PhoneBook.Report.Api.Services.Dtos;
 using PhoneBook.Report.Api.Services.Interfaces;
@@ -27,7 +28,7 @@ namespace PhoneBook.Report.Api.Services.Implementations
             return reportResponse;
         }
 
-        public Task<IEnumerable<ReportResponseDto>> ListReportRequests()
+        public Task<PageListToSerialize<ReportResponseDto>> ListReportRequests()
         {
             throw new System.NotImplementedException();
         }
