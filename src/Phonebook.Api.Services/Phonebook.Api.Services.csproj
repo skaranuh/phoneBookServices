@@ -4,6 +4,7 @@
 		<ProjectReference Include="..\PhoneBook.Api.Entities\PhoneBook.Api.Entities.csproj" />
 		<ProjectReference Include="..\PhoneBook.Api.Utilities\PhoneBook.Api.Utilities.csproj" />
 		<ProjectReference Include="..\X.PagedList\X.PagedList.csproj" />
+		<ProjectReference Include="..\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj" />
 	</ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>

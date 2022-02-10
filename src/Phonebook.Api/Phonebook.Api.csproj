@@ -3,14 +3,15 @@
 		<TargetFramework>net5.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10"/>
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
-		<PackageReference Include="AutoMapper" Version="11.0.0"/>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="AutoMapper" Version="11.0.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\PhoneBook.Api.Services\PhoneBook.Api.Services.csproj"/>
-		<ProjectReference Include="..\PhoneBook.Api.DataContext\PhoneBook.Api.DataContext.csproj"/>
-		<ProjectReference Include="..\PhoneBook.Api.Utilities\PhoneBook.Api.Utilities.csproj"/>
+		<ProjectReference Include="..\PhoneBook.Api.Services\PhoneBook.Api.Services.csproj" />
+		<ProjectReference Include="..\PhoneBook.Api.DataContext\PhoneBook.Api.DataContext.csproj" />
+		<ProjectReference Include="..\PhoneBook.Api.Utilities\PhoneBook.Api.Utilities.csproj" />
+		<ProjectReference Include="..\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using X.PagedList;
 
-namespace   PhoneBook.Api.Services{
+namespace PhoneBook.Common.Dtos
+{
 
     public class PageListToSerialize<T>
     {

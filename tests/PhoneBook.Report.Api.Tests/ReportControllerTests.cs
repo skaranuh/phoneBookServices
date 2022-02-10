@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using PhoneBook.Common.Dtos;
 using PhoneBook.Report.Api.Controllers;
 using PhoneBook.Report.Api.Entities.Enums;
 using PhoneBook.Report.Api.Services.Dtos;
@@ -35,7 +36,7 @@ namespace PhoneBook.Report.Api.Tests
         {
             //arrange
             var reportService = new Mock<IReportService>();
-            var reportRequests = new List<ReportResponseDto>();
+            var reportRequests = new PageListToSerialize<ReportResponseDto>();
             reportService.Setup(x => x.ListReportRequests()).ReturnsAsync(reportRequests);
             var reportController = new ReportController(reportService.Object);
 
