@@ -8,6 +8,6 @@ namespace PhoneBook.Report.Api.Repositories.Interfaces
     public interface IReportRepository
     {
         Task<ReportEntity> CreateReportRequest();
-        Task<IPagedList<ReportEntity>> ListReportRequests();
+        Task<IPagedList<ReportEntity>> ListReportRequests(int pageNumber, int pageSize);
     }
 }
