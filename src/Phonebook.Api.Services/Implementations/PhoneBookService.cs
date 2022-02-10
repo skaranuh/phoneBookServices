@@ -7,10 +7,8 @@ using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Interfaces;
 using PhoneBook.Api.Utilities.Exceptions;
-using X.PagedList;
-using System.Linq;
-using System.Text.Json;
 using PhoneBook.Api.Entities.Dtos;
+using PhoneBook.Common.Dtos;
 
 namespace PhoneBook.Api.Services.Implementations
 {
