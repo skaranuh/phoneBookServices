@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PhoneBook.Report.Api.Controllers;
+using PhoneBook.Report.Api.Entities.Enums;
 using PhoneBook.Report.Api.Services.Dtos;
 using PhoneBook.Report.Api.Services.Interfaces;
 using Xunit;
@@ -19,7 +20,7 @@ namespace PhoneBook.Report.Api.Tests
             var reportService = new Mock<IReportService>();
             var reportController = new ReportController(reportService.Object);
 
-            var reportResponseDto = new ReportResponseDto { Id = Guid.NewGuid(), RequestDate = DateTime.Now, Status = Services.Enums.ReportStatus.Pending };
+            var reportResponseDto = new ReportResponseDto { Id = Guid.NewGuid(), RequestDate = DateTime.Now, Status = ReportStatus.Pending };
             reportService.Setup(x => x.CreateReportRequest()).ReturnsAsync(reportResponseDto);
 
             //act

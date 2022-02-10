@@ -1,12 +1,9 @@
-using System;
-using PhoneBook.Report.Api.Services.Enums;
+using PhoneBook.Report.Api.Entities.Entities;
 
 namespace PhoneBook.Report.Api.Services.Dtos
 {
-    public class ReportResponseDto
+    public class ReportResponseDto: ReportEntity
     {
-        public Guid Id { get; set; }
-        public ReportStatus Status { get; set; }
-        public DateTime RequestDate { get; set; }
+       
     }
 }
