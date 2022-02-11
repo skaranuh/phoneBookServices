@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PhoneBook.Report.Api.DataContext;
 
 namespace PhoneBook.Report.Api
 {
@@ -32,6 +27,9 @@ namespace PhoneBook.Report.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Report.Api", Version = "v1" });
             });
+
+            services.AddDbContext<PhoneBookReportDataContext>(options =>
+         options.UseNpgsql(Configuration.GetConnectionString("PhoneBookReportConnection"), x => x.MigrationsAssembly("PhoneBook.Report.Api.DataContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
