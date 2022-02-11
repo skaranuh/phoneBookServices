@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\PhoneBook.Report.Api.Services\PhoneBook.Report.Api.Services.csproj" />
-    <ProjectReference Include="..\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10"/>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\PhoneBook.Report.Api.Services\PhoneBook.Report.Api.Services.csproj"/>
+		<ProjectReference Include="..\PhoneBook.Common.Dtos\PhoneBook.Common.Dtos.csproj"/>
+		<ProjectReference Include="..\PhoneBook.Report.Api.DataContext\PhoneBook.Report.Api.DataContext.csproj"/>
+	</ItemGroup>
 </Project>
