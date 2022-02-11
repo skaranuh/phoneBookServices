@@ -22,9 +22,10 @@ namespace PhoneBook.Report.Api.Repositories.Implementations
             return reportEntity;
         }
 
-        public Task<IPagedList<ReportEntity>> ListReportRequests(int pageNumber, int pageSize)
+        public async Task<IPagedList<ReportEntity>> ListReportRequests(int pageNumber, int pageSize)
         {
-            throw new System.NotImplementedException();
+            var reports = await _phoneBookReportDataContext.Reports.AsQueryable().ToPagedListAsync(pageNumber, pageSize);
+            return reports;
         }
     }
 }
