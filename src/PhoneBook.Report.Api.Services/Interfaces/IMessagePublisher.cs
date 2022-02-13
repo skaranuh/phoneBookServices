@@ -5,6 +5,6 @@ namespace PhoneBook.Report.Api.Services.Interfaces
 {
     public interface IMessagePublisher
     {
-        Task Publish(Guid Id);
+        Task Publish(string topic, string message);
     }
 }
