@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PhoneBook.Report.Api.Entities.Entities;
@@ -9,5 +10,6 @@ namespace PhoneBook.Report.Api.Repositories.Interfaces
     {
         Task<ReportEntity> CreateReportRequest();
         Task<IPagedList<ReportEntity>> ListReportRequests(int pageNumber, int pageSize);
+        Task UpdateReportStatus(Guid reportRequestId, string reportPath);
     }
 }

@@ -12,9 +12,6 @@ using PhoneBook.Api.Entities.Enums;
 using PhoneBook.Api.Entities.Entities;
 using PhoneBook.Api.Utilities.Exceptions;
 using X.PagedList;
-using System.Text.Json;
-using PhoneBook.Api.Services;
-using PhoneBook.Api.Entities.Dtos;
 using PhoneBook.Common.Dtos;
 
 namespace PhoneBook.Api.Tests

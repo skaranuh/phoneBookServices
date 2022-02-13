@@ -28,5 +28,10 @@ namespace PhoneBook.Report.Api.Repositories.Implementations
             var reports = await _phoneBookReportDataContext.Reports.OrderByDescending(x=>x.RequestDate).AsQueryable().ToPagedListAsync(pageNumber, pageSize);
             return reports;
         }
+
+        public Task UpdateReportStatus(Guid reportRequestId, string reportPath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
