@@ -55,7 +55,7 @@ namespace PhoneBook.Report.Api.Tests
             mapper.Setup(x => x.Map<ReportResponseDto>(It.IsAny<ReportEntity>())).Returns(reportResponse);
             var configuration = new Mock<IConfiguration>();
             var topic="topic";
-            configuration.Setup(x=> x["Kafka:Topic"]).Returns(topic);
+            configuration.Setup(x=> x["Messaging:Topic"]).Returns(topic);
             var messagePublisher = new Mock<IMessagePublisher>();
             var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object, configuration.Object);
 
