@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using PhoneBook.Api.Utilities.Exceptions;
 using X.PagedList;
-using PhoneBook.Api.Entities.Dtos;
+using PhoneBook.Common.Dtos;
 
 namespace PhoneBook.Api.Repositories.Implementations
 {

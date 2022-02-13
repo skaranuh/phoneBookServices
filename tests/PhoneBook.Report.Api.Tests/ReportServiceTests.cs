@@ -54,8 +54,8 @@ namespace PhoneBook.Report.Api.Tests
             var reportResponse = new ReportResponseDto { Id = Guid.NewGuid() };
             mapper.Setup(x => x.Map<ReportResponseDto>(It.IsAny<ReportEntity>())).Returns(reportResponse);
             var configuration = new Mock<IConfiguration>();
-            var topic="topic";
-            configuration.Setup(x=> x["Messaging:Topic"]).Returns(topic);
+            var topic = "topic";
+            configuration.Setup(x => x["Messaging:Topic"]).Returns(topic);
             var messagePublisher = new Mock<IMessagePublisher>();
             var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object, configuration.Object);
 
@@ -92,6 +92,6 @@ namespace PhoneBook.Report.Api.Tests
             //assert
             reportRepository.Verify(x => x.ListReportRequests(pageNumber, pageSize));
             Assert.Equal(reportRequestsPagedList.Count, reports.List.Count());
-        }
+        }        
     }
 }

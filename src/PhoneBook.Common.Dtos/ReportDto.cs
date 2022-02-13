@@ -1,6 +1,5 @@
-
-
-namespace PhoneBook.Api.Entities.Dtos{
+namespace PhoneBook.Common.Dtos
+{
 
     public class ReportDto
     {

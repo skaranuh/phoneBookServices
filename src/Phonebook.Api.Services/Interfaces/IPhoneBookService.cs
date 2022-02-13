@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using PhoneBook.Api.Entities.Dtos;
 using PhoneBook.Api.Services.Dtos;
 using PhoneBook.Common.Dtos;
 
