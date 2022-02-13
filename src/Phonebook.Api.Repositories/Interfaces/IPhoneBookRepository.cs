@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using PhoneBook.Api.Entities.Dtos;
 using PhoneBook.Api.Entities.Entities;
+using PhoneBook.Common.Dtos;
 using X.PagedList;
 
 namespace PhoneBook.Api.Repositories.Interfaces
