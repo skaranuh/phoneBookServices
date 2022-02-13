@@ -127,7 +127,7 @@ namespace PhoneBook.Api.Repositories.Implementations
 
         public async Task<IPagedList<ContactPerson>> ListContactPersons(int pageNumber, int pageSize)
         {
-            var contactPersons = await _phoneBookDataContext.ContactPersons.AsQueryable().ToPagedListAsync(pageNumber, pageSize);
+            var contactPersons = await _phoneBookDataContext.ContactPersons.OrderByDescending(x=>x.LastName).ThenBy(x=>x.Name).AsQueryable().ToPagedListAsync(pageNumber, pageSize);
             return contactPersons;
         }
 
