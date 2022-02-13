@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +28,7 @@ namespace PhoneBook.Report.Api.Services.Implementations
         {
             var report = await _reportRepository.CreateReportRequest();
             var reportResponse = _map.Map<ReportResponseDto>(report);
-            var topic = _config["Kafka:Topic"];
+            var topic = _config["Messaging:Topic"];
             await _messagePublisher.Publish(topic, reportResponse.Id.ToString());
             return reportResponse;
         }
