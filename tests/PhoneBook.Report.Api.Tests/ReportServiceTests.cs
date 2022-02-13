@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Moq;
-using PhoneBook.Common.Dtos;
 using PhoneBook.Report.Api.Entities.Entities;
 using PhoneBook.Report.Api.Repositories.Interfaces;
 using PhoneBook.Report.Api.Services.Dtos;
@@ -31,8 +31,9 @@ namespace PhoneBook.Report.Api.Tests
             mapper.Setup(x => x.Map<ReportResponseDto>(reportEntity)).Returns(reportResponse);
 
             var messagePublisher = new Mock<IMessagePublisher>();
+            var configuration = new Mock<IConfiguration>();
 
-            var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object);
+            var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object, configuration.Object);
 
             //act
             var response = await reportService.CreateReportRequest();
@@ -52,15 +53,17 @@ namespace PhoneBook.Report.Api.Tests
             var mapper = new Mock<IMapper>();
             var reportResponse = new ReportResponseDto { Id = Guid.NewGuid() };
             mapper.Setup(x => x.Map<ReportResponseDto>(It.IsAny<ReportEntity>())).Returns(reportResponse);
-
+            var configuration = new Mock<IConfiguration>();
+            var topic="topic";
+            configuration.Setup(x=> x["Kafka:Topic"]).Returns(topic);
             var messagePublisher = new Mock<IMessagePublisher>();
-            var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object);
+            var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object, configuration.Object);
 
             //act
             var response = await reportService.CreateReportRequest();
 
             //assert
-            messagePublisher.Verify(x => x.Publish(It.Is<Guid>(x => x.Equals(reportResponse.Id))));
+            messagePublisher.Verify(x => x.Publish(topic, It.Is<string>(x => x.Equals(reportResponse.Id.ToString()))));
         }
 
         [Fact]
@@ -70,7 +73,8 @@ namespace PhoneBook.Report.Api.Tests
             var reportRepository = new Mock<IReportRepository>();
             var mapper = new Mock<IMapper>();
             var messagePublisher = new Mock<IMessagePublisher>();
-            var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object);
+            var configuration = new Mock<IConfiguration>();
+            var reportService = new ReportService(reportRepository.Object, mapper.Object, messagePublisher.Object, configuration.Object);
             var reportRequests = new List<ReportEntity> { new ReportEntity { Id = Guid.NewGuid(), RequestDate = DateTime.Now, Status = Entities.Enums.ReportStatus.Pending } };
 
             var pageNumber = 1;

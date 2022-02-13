@@ -6,6 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PhoneBook.Report.Api.DataContext;
+using PhoneBook.Report.Api.Services.Interfaces;
+using PhoneBook.Report.Api.Services.Implementations;
+using PhoneBook.Report.Api.Repositories.Interfaces;
+using PhoneBook.Report.Api.Repositories.Implementations;
+using PhoneBook.Report.Api.Mappings;
+using System.Text.Json.Serialization;
 
 namespace PhoneBook.Report.Api
 {
@@ -22,14 +28,30 @@ namespace PhoneBook.Report.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
+             services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+   
             services.AddControllers();
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Report.Api", Version = "v1" });
-            });
+           {
+               c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Report.Api", Version = "v1" });
+           });
 
             services.AddDbContext<PhoneBookReportDataContext>(options =>
          options.UseNpgsql(Configuration.GetConnectionString("PhoneBookReportConnection"), x => x.MigrationsAssembly("PhoneBook.Report.Api.DataContext")));
+
+            services.AddAutoMapper(typeof(MappingsProfile));
+
+            services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddSingleton<IMessagePublisher, KafkaMessagePublisher>();
+
+             services.AddControllers()
+               .AddJsonOptions(options =>
+               {
+                   options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                   options.JsonSerializerOptions.IgnoreNullValues = true;
+               });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,8 +61,12 @@ namespace PhoneBook.Report.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhoneBook.Report.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "PhoneBook.Report.Api v1"));
             }
+           
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 
