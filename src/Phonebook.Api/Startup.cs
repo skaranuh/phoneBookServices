@@ -33,7 +33,7 @@ namespace PhoneBook.Api
 
             services.AddControllers().AddJsonOptions(x =>
    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-   
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneBook.Api", Version = "v1" });
@@ -52,7 +52,7 @@ namespace PhoneBook.Api
                .AddJsonOptions(options =>
                {
                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                   options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                });
         }
 
@@ -67,6 +67,10 @@ namespace PhoneBook.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "PhoneBook.Api v1"));
             }
+
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
 
             app.UseExceptionHandler(new ExceptionHandlerOptions
             {
