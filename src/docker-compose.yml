@@ -17,7 +17,18 @@ services:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
-      - zookeeper
+      - zookeeper  
+  api-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    ports:
+      - '5434:5432'
+    container_name: postgres-phonebook-api
+    expose:
+      - '5434'
   db:
     image: postgres
     restart: always
