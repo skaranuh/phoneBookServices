@@ -4,6 +4,7 @@ using PhoneBook.Report.Api.Repositories.Interfaces;
 using X.PagedList;
 using PhoneBook.Report.Api.DataContext;
 using System;
+using System.Linq;
 
 namespace PhoneBook.Report.Api.Repositories.Implementations
 {
@@ -24,7 +25,7 @@ namespace PhoneBook.Report.Api.Repositories.Implementations
 
         public async Task<IPagedList<ReportEntity>> ListReportRequests(int pageNumber, int pageSize)
         {
-            var reports = await _phoneBookReportDataContext.Reports.AsQueryable().ToPagedListAsync(pageNumber, pageSize);
+            var reports = await _phoneBookReportDataContext.Reports.OrderByDescending(x=>x.RequestDate).AsQueryable().ToPagedListAsync(pageNumber, pageSize);
             return reports;
         }
     }
