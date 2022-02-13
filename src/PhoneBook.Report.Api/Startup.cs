@@ -28,9 +28,9 @@ namespace PhoneBook.Report.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-             services.AddControllers().AddJsonOptions(x =>
-   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-   
+            services.AddControllers().AddJsonOptions(x =>
+  x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
            {
@@ -45,13 +45,17 @@ namespace PhoneBook.Report.Api
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddSingleton<IMessagePublisher, KafkaMessagePublisher>();
+            services.AddSingleton<IMessageReceiver, KafkaMessageReceiver>();
+            
+            services.AddHostedService<MessageConsumer>();
+                 
 
-             services.AddControllers()
-               .AddJsonOptions(options =>
-               {
-                   options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                   options.JsonSerializerOptions.IgnoreNullValues = true;
-               });
+            services.AddControllers()
+              .AddJsonOptions(options =>
+              {
+                  options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                  options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+              });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +67,7 @@ namespace PhoneBook.Report.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "PhoneBook.Report.Api v1"));
             }
-           
+
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
