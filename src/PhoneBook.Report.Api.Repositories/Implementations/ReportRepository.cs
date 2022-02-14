@@ -25,13 +25,22 @@ namespace PhoneBook.Report.Api.Repositories.Implementations
 
         public async Task<IPagedList<ReportEntity>> ListReportRequests(int pageNumber, int pageSize)
         {
-            var reports = await _phoneBookReportDataContext.Reports.OrderByDescending(x=>x.RequestDate).AsQueryable().ToPagedListAsync(pageNumber, pageSize);
+            var reports = await _phoneBookReportDataContext.Reports.OrderByDescending(x => x.RequestDate).AsQueryable().ToPagedListAsync(pageNumber, pageSize);
             return reports;
         }
 
-        public Task UpdateReportStatus(Guid reportRequestId, string reportPath)
+        public async Task UpdateReportStatus(Guid reportRequestId, string reportPath)
         {
-            throw new NotImplementedException();
+            var report = await _phoneBookReportDataContext.Reports.FindAsync(reportRequestId);
+            if (report == null)
+            {
+                report.Status = Entities.Enums.ReportStatus.Error;
+                throw new ArgumentNullException(nameof(report));
+            }
+            report.Status = Entities.Enums.ReportStatus.Completed;
+            report.ReportPath = reportPath;
+            report.CompletedDate=DateTime.Now;
+            await _phoneBookReportDataContext.SaveChangesAsync();
         }
     }
 }

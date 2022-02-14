@@ -8,5 +8,7 @@ namespace PhoneBook.Report.Api.Entities.Entities
     {
         public ReportStatus Status { get; set; }
         public DateTime RequestDate { get; set; }
+        public string ReportPath { get; set; }
+        public DateTime? CompletedDate { get; set; }
     }
 }

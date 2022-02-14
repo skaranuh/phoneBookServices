@@ -13,16 +13,16 @@ namespace PhoneBook.Report.Api.Services.Implementations
     public class ReportGenerator : IReportGenerator
     {
         private readonly IReportRepository _reportRepository;
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _configuration;
         private readonly IWebServiceRequest _webServiceRequest;
         private readonly IExcelGenerator _excelGenerator;
         public ReportGenerator(IReportRepository reportRepository,
-        IConfiguration config,
+        IConfiguration configuration,
         IWebServiceRequest webServiceRequest,
         IExcelGenerator excelGenerator)
         {
             _reportRepository = reportRepository;
-            _config = config;
+            _configuration = configuration;
             _webServiceRequest = webServiceRequest;
             _excelGenerator = excelGenerator;
         }
@@ -30,12 +30,19 @@ namespace PhoneBook.Report.Api.Services.Implementations
         public async Task GenerateReport(Guid reportRequestId)
         {
             var allReportData = new List<ReportDto>();
-            var reportData = await _webServiceRequest.GetReportData();
-            allReportData.AddRange(reportData);
-            
-            for (int i = 0; i < reportData.PageCount - 1; i++)
+            int.TryParse(_configuration["Report:PageSize"], out int pageSize);
+            if (pageSize == 0)
             {
-                reportData = await _webServiceRequest.GetReportData();
+                pageSize = 100;
+            }
+
+            var initialPage = 1;
+            var reportData = await _webServiceRequest.GetReportData(initialPage, pageSize);
+            allReportData.AddRange(reportData);
+
+            for (int i = initialPage + 1; i <= reportData.PageCount; i++)
+            {
+                reportData = await _webServiceRequest.GetReportData(i, pageSize);
                 allReportData.AddRange(reportData);
             }
 
