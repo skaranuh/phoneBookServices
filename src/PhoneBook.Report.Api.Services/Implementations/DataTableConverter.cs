@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
+using PhoneBook.Report.Api.Services.Interfaces;
 
 namespace PhoneBook.Report.Api.Services.Implementations
 {
-    public static class DataTableConverter
+    public  class DataTableConverter:IDataTableConverter
     {
-        public static DataTable ToDataTable<T>(List<T> items)
+        public  DataTable ToDataTable<T>(List<T> items)
         {
             DataTable dataTable = new DataTable(typeof(T).Name);
             //Get all the properties

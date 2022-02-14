@@ -8,6 +8,7 @@ using PhoneBook.Api.Repositories.Interfaces;
 using PhoneBook.Api.Services.Interfaces;
 using PhoneBook.Api.Utilities.Exceptions;
 using PhoneBook.Common.Dtos;
+using System.Linq;
 
 namespace PhoneBook.Api.Services.Implementations
 {
@@ -59,7 +60,7 @@ namespace PhoneBook.Api.Services.Implementations
             var reportDtos = _map.Map<IEnumerable<ReportDto>>(report);
             var pageListToSerialize = new PageListToSerialize<ReportDto>
             {
-                List = reportDtos,
+                List = reportDtos.ToList(),
                 MetaData = report.GetMetaData()
             };
 
@@ -78,7 +79,7 @@ namespace PhoneBook.Api.Services.Implementations
             var contactPersonDtos = _map.Map<IEnumerable<ContactPersonDto>>(contactPersons);
             var pageListToSerialize = new PageListToSerialize<ContactPersonDto>
             {
-                List = contactPersonDtos,
+                List = contactPersonDtos.ToList(),
                 MetaData = contactPersons.GetMetaData()
             };
 

@@ -40,11 +40,13 @@ namespace PhoneBook.Api
             });
 
             services.AddAutoMapper(typeof(MappingsProfile));
-             services.AddDbContext<PhoneBookDataContext>(options =>
-         options.UseNpgsql(Configuration.GetConnectionString("PhoneBookConnection"), x => x.MigrationsAssembly("PhoneBook.Api.DataContext")));
+            services.AddDbContext<PhoneBookDataContext>(options =>
+        options.UseNpgsql(Configuration.GetConnectionString("PhoneBookConnection"), x => x.MigrationsAssembly("PhoneBook.Api.DataContext")));
+            
             services.AddScoped<IPhoneBookService, PhoneBookService>();
             services.AddScoped<IPhoneBookRepository, PhoneBookRepository>();
-            services.AddScoped<IExceptionHelper, ExceptionHelper>();
+            
+            services.AddSingleton<IExceptionHelper, ExceptionHelper>();
 
             services.AddControllers()
                .AddJsonOptions(options =>

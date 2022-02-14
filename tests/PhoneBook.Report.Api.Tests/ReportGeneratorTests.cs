@@ -11,6 +11,7 @@ using PhoneBook.Report.Api.Services.Interfaces;
 using X.PagedList;
 using Xunit;
 using System.Linq;
+using PhoneBook.Report.Api.Services.Dtos;
 
 namespace PhoneBook.Report.Api.Tests
 {
@@ -38,10 +39,16 @@ namespace PhoneBook.Report.Api.Tests
             var pageNumber = 1;
             var pageSize = 1;
             var reportRequestsPagedList = new PagedList<ReportDto>(reportData.AsQueryable(), pageNumber, pageSize);
+            var listItems = new ListItems<ReportDto>();
+            listItems.Values = reportRequestsPagedList.AsEnumerable().ToList();
+
+            var pagedListToSerialize = new PageListToDeserialize<ReportDto> { List =listItems  , MetaData = reportRequestsPagedList.GetMetaData() };
             var serviceCallTimes = (int)Math.Ceiling((decimal)reportItemsCount / (decimal)pageSize);
 
+
+
             configuration.Setup(x => x["Report:PageSize"]).Returns(pageSize.ToString());
-            webServiceRequest.Setup(x => x.GetReportData(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(reportRequestsPagedList);
+            webServiceRequest.Setup(x => x.GetReportData(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(pagedListToSerialize);
             excelGenerator.Setup(x => x.ExportToExcel(It.Is<IEnumerable<ReportDto>>(x => x.ToList().Count == reportData.Count))).ReturnsAsync(reportPath);
 
             //act
