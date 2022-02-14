@@ -11,27 +11,34 @@ using PhoneBook.Report.Api.Services.Interfaces;
 namespace PhoneBook.Report.Api.Services.Implementations
 {
     public class ExcelGenerator : IExcelGenerator
-    {
-        private readonly IFileOperations _fileOperations;
-        private readonly IConfiguration _configuration;
-        public ExcelGenerator(IFileOperations fileOperations, IConfiguration configuration)
+    {        private readonly IConfiguration _configuration;
+
+        private readonly IDataTableConverter _dataTableConverter;
+
+        public ExcelGenerator(IConfiguration configuration, IDataTableConverter dataTableConverter)
         {
-            _fileOperations = fileOperations;
             _configuration = configuration;
+            _dataTableConverter = dataTableConverter;
         }
         public async Task<string> ExportToExcel(IEnumerable<ReportDto> reportData)
         {
             using (XLWorkbook wb = new XLWorkbook())
             {
-                wb.Worksheets.Add(DataTableConverter.ToDataTable(reportData.ToList()));
-                using (var stream = new MemoryStream())
+                wb.Worksheets.Add(_dataTableConverter.ToDataTable(reportData.ToList()), "report");
+               
+                var fileName = $"{Guid.NewGuid()}.xlsx";
+                var filePath = $"./{_configuration["Report:Path"]}";
+                
+                var info = new DirectoryInfo(filePath);
+                if (!info.Exists)
                 {
-                    wb.SaveAs(stream);
-                    var fileName = $"{Guid.NewGuid()}.xlsx";
-                    var filePath = _configuration["Report:Path"];
-                    await _fileOperations.SaveStreamAsFile(filePath, stream, fileName);
-                    return fileName;
+                    info.Create();
                 }
+
+                var path = Path.Combine(filePath, fileName);
+
+                wb.SaveAs(path);
+                return await Task.FromResult(fileName);
             }
         }
     }

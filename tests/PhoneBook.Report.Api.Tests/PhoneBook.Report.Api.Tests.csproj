@@ -1,4 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<Target Name="DisableAnalyzers" BeforeTargets="CoreCompile">
+		<ItemGroup>
+			<Analyzer Remove="@(Analyzer)" />
+		</ItemGroup>
+	</Target>
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<IsPackable>false</IsPackable>

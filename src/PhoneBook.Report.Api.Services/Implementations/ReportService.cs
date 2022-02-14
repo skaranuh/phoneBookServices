@@ -7,6 +7,7 @@ using PhoneBook.Common.Dtos;
 using PhoneBook.Report.Api.Repositories.Interfaces;
 using PhoneBook.Report.Api.Services.Dtos;
 using PhoneBook.Report.Api.Services.Interfaces;
+using System.Linq;
 
 namespace PhoneBook.Report.Api.Services.Implementations
 {
@@ -45,7 +46,7 @@ namespace PhoneBook.Report.Api.Services.Implementations
             var ReportResponseDtos = _map.Map<IEnumerable<ReportResponseDto>>(reports);
             var pageListToSerialize = new PageListToSerialize<ReportResponseDto>
             {
-                List = ReportResponseDtos,
+                List = ReportResponseDtos.ToList(),
                 MetaData = reports.GetMetaData()
             };
 

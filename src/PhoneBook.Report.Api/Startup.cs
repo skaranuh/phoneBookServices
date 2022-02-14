@@ -44,11 +44,15 @@ namespace PhoneBook.Report.Api
 
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<IReportGenerator, ReportGenerator>();
+
+            services.AddSingleton<IExcelGenerator, ExcelGenerator>();
+            services.AddSingleton<IDataTableConverter, DataTableConverter>();
+            services.AddSingleton<IWebServiceRequest, RestSharpRequest>();
             services.AddSingleton<IMessagePublisher, KafkaMessagePublisher>();
             services.AddSingleton<IMessageReceiver, KafkaMessageReceiver>();
-            
+
             services.AddHostedService<MessageConsumer>();
-                 
 
             services.AddControllers()
               .AddJsonOptions(options =>

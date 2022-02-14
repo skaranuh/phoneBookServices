@@ -1,4 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<Target Name="DisableAnalyzers" BeforeTargets="CoreCompile">
+		<ItemGroup>
+			<Analyzer Remove="@(Analyzer)" />
+		</ItemGroup>
+	</Target>
 	<ItemGroup>
 		<ProjectReference Include="..\PhoneBook.Report.Api.Repositories\PhoneBook.Report.Api.Repositories.csproj"/>
 		<ProjectReference Include="..\PhoneBook.Report.Api.Entities\PhoneBook.Report.Api.Entities.csproj"/>
