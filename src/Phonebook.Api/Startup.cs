@@ -43,8 +43,10 @@ namespace PhoneBook.Api
             services.AddDbContext<PhoneBookDataContext>(options =>
         options.UseNpgsql(Configuration.GetConnectionString("PhoneBookConnection"), x => x.MigrationsAssembly("PhoneBook.Api.DataContext")));
 
+
             services.AddScoped<IPhoneBookService, PhoneBookService>();
             services.AddScoped<IPhoneBookRepository, PhoneBookRepository>();
+
 
             services.AddSingleton<IExceptionHelper, ExceptionHelper>();
 
@@ -65,10 +67,13 @@ namespace PhoneBook.Api
             {
                 app.UseDeveloperExceptionPage();
 
+
             }
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "PhoneBook.Api v1"));
+
+
 
             app.UseDefaultFiles();
 

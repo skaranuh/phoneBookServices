@@ -68,7 +68,6 @@ namespace PhoneBook.Report.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
             }
 
             app.UseSwagger();

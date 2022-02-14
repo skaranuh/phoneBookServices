@@ -76,4 +76,14 @@
             ]
         }
     ],
+
+    "compounds": [
+        {
+            "name": "PhoneBook Api & Report",
+            "configurations": [
+                "PhoneBook Api (web)",
+                "PhoneBook Report Api (web)"
+            ]
+        }
+    ]
 }
