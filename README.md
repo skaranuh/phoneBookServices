@@ -61,7 +61,4 @@ http://localhost:5000
 //PhoneBookReport   
 http://localhost:5003     
 
-### update report database   
-cd .\PhoneBook.Report.Api.DataContext\   
-dotnet ef database update --startup-project ..\PhoneBook.Report.Api\  
 
