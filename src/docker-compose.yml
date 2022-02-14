@@ -6,10 +6,13 @@ services:
       - '2181:2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      report:
+        ipv4_address: 172.18.0.6
   kafka:
     image: 'bitnami/kafka:latest'
     ports:
-      - '9092:9092'
+      - 9092:9092
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
@@ -18,25 +21,65 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper  
-  api-db:
+    networks:
+      report:
+        ipv4_address: 172.18.0.5
+  api_db:
     image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
     ports:
-      - '5434:5432'
-    container_name: postgres-phonebook-api
+      - 5434:5432
+    container_name: postgres_phonebook_api
     expose:
-      - '5434'
-  db:
+      - 5434
+    networks:
+      report:
+        ipv4_address: 172.18.0.4
+  report_db:
     image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
     ports:
-      - '5433:5432'
-    container_name: postgres-phonebook-report
+      - 5433:5432
+    container_name: postgres_phonebook_report
     expose:
-      - '5433'
+      - 5433
+    networks:
+      report:
+        ipv4_address: 172.18.0.3
+  phonebookapi:
+    image: phonebook-api
+    build:
+      context: .
+      dockerfile: src/PhoneBook.Api/Dockerfile
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
+    networks:
+      report:
+        ipv4_address: 172.18.0.2
+  phonebookreportapi:
+    image: phonebook-report-api
+    build:
+      context: .
+      dockerfile: src/PhoneBook.Report.Api/Dockerfile
+    ports:
+      - 5003:5003
+    expose:
+      - 5003
+    networks:
+      report:
+        ipv4_address: 172.18.0.7
+networks:
+  report:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16

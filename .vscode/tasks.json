@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/tests/PhoneBook.Api.Tests/PhoneBook.Api.Tests.csproj",
+                "${workspaceFolder}/src/PhoneBook.Api/PhoneBook.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/tests/PhoneBook.Api.Tests/PhoneBook.Api.Tests.csproj",
+                "${workspaceFolder}/src/PhoneBook.Api/PhoneBook.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -36,6 +36,62 @@
                 "${workspaceFolder}/tests/PhoneBook.Api.Tests/PhoneBook.Api.Tests.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: debug",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "phonebookservices:dev",
+                "target": "base",
+                "dockerfile": "${workspaceFolder}/src/PhoneBook.Api/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/PhoneBook.Api/Phonebook.Api.csproj"
+            }
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: release",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "phonebookservices:latest",
+                "dockerfile": "${workspaceFolder}/src/PhoneBook.Api/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/PhoneBook.Api/Phonebook.Api.csproj"
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build: debug"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/PhoneBook.Api/Phonebook.Api.csproj",
+                "enableDebugging": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: release",
+            "dependsOn": [
+                "docker-build: release"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/PhoneBook.Api/Phonebook.Api.csproj"
+            }
         }
     ]
 }
