@@ -8,6 +8,6 @@ namespace PhoneBook.Report.Api.Services.Interfaces
 {
     public interface IWebServiceRequest
     {
-        Task<PagedList<ReportDto>> GetReportData();
+        Task<PagedList<ReportDto>> GetReportData(int pageNumber, int pageSize);
     }
 }
