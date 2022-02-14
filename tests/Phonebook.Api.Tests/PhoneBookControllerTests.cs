@@ -111,7 +111,7 @@ namespace PhoneBook.Api.Tests
 
             var serializedContactPersonPagedDtos = new PageListToSerialize<ContactPersonDto>
             {
-                List = contactPersonsPaged,
+                List = contactPersonsPaged.ToList(),
                 MetaData = contactPersonsPaged.GetMetaData()
             };
 

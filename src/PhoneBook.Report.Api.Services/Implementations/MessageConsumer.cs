@@ -2,59 +2,58 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using PhoneBook.Report.Api.Services.Interfaces;
 
 namespace PhoneBook.Report.Api.Services.Implementations
 {
     public class MessageConsumer : BackgroundService
     {
-        private readonly string _topic;
-        private readonly IMessageReceiver _messageReceiver;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public MessageConsumer(IConfiguration config, IMessageReceiver messageReceiver)
+        public MessageConsumer(IServiceScopeFactory serviceScopeFactory)
         {
-            _topic = config["Messaging:Topic"];
-            _messageReceiver = messageReceiver;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            new Thread(() => StartConsumerLoop(stoppingToken)).Start();
-
-            return Task.CompletedTask;
+            await Task.Run(async () => await StartConsumerLoop(stoppingToken));
         }
 
-        private void StartConsumerLoop(CancellationToken cancellationToken)
+        private async Task StartConsumerLoop(CancellationToken cancellationToken)
         {
-            _messageReceiver.Subscribe(_topic);
-
-            while (!cancellationToken.IsCancellationRequested)
+            using (var scope = _serviceScopeFactory.CreateScope())
             {
-                try
-                {
-                    var cr = _messageReceiver.Receive(cancellationToken);
+                var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                var topic = config["Messaging:Topic"];
+                var messageReceiver = scope.ServiceProvider.GetRequiredService<IMessageReceiver>();
+                var reportGenerator = scope.ServiceProvider.GetRequiredService<IReportGenerator>();
 
-                    // Handle message...
-                    Console.WriteLine($"{cr} received");
-                }
-                catch (OperationCanceledException)
+                messageReceiver.Subscribe(topic);
+
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    break;
-                }               
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Unexpected error: {e}");
-                    break;
+                    try
+                    {
+                        var message = messageReceiver.Receive(cancellationToken);
+                        var reportRequestId = Guid.Parse(message);
+                        Console.WriteLine($"Report request : {reportRequestId} received");
+                        await reportGenerator.GenerateReport(reportRequestId);
+                        Console.WriteLine($"Report request : {reportRequestId} completed");
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        Console.WriteLine($"Report request failed: {ex.ToString()}");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"Report request failed: Unexpected error: {e}");
+                    }
                 }
+
             }
-        }
-
-        public override void Dispose()
-        {
-            _messageReceiver.Dispose();
-            base.Dispose();
         }
     }
 }

@@ -38,12 +38,12 @@ namespace PhoneBook.Report.Api.Services.Implementations
 
             var initialPage = 1;
             var reportData = await _webServiceRequest.GetReportData(initialPage, pageSize);
-            allReportData.AddRange(reportData);
+            allReportData.AddRange(reportData.List.Values);
 
-            for (int i = initialPage + 1; i <= reportData.PageCount; i++)
+            for (int i = initialPage + 1; i <= reportData.MetaData.PageCount; i++)
             {
                 reportData = await _webServiceRequest.GetReportData(i, pageSize);
-                allReportData.AddRange(reportData);
+                allReportData.AddRange(reportData.List.Values);
             }
 
             var excelPath = await _excelGenerator.ExportToExcel(allReportData);

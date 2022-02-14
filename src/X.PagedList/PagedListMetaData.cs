@@ -11,7 +11,7 @@ namespace X.PagedList
 		/// <summary>
 		/// Protected constructor that allows for instantiation without passing in a separate list.
 		/// </summary>
-		protected PagedListMetaData()
+		public PagedListMetaData()
 		{
 		}
 
