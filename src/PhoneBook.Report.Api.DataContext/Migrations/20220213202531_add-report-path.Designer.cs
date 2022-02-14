@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PhoneBook.Report.Api.DataContext;
@@ -9,9 +10,10 @@ using PhoneBook.Report.Api.DataContext;
 namespace PhoneBook.Report.Api.DataContext.Migrations
 {
     [DbContext(typeof(PhoneBookReportDataContext))]
-    partial class PhoneBookReportDataContextModelSnapshot : ModelSnapshot
+    [Migration("20220213202531_add-report-path")]
+    partial class addreportpath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
