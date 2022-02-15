@@ -6,9 +6,7 @@ services:
       - '2181:2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
-    networks:
-      report:
-        ipv4_address: 172.18.0.6
+    
   kafka:
     image: 'bitnami/kafka:latest'
     ports:
@@ -16,42 +14,42 @@ services:
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.01:9092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper  
-    networks:
-      report:
-        ipv4_address: 172.18.0.5
+ 
   api_db:
     image: postgres
     restart: always
+    volumes:
+      - /private/var/lib/postgresql:/var/lib/postgresql-api
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: phoneBookPass
+      POSTGRES_USER: phonebookuser
+      POSTGRES_DB: phonebook
     ports:
       - 5434:5432
     container_name: postgres_phonebook_api
     expose:
       - 5434
-    networks:
-      report:
-        ipv4_address: 172.18.0.4
+
   report_db:
     image: postgres
     restart: always
+    volumes:
+      - /private/var/lib/postgresql:/var/lib/postgresql-report
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: phoneBookReportPass
+      POSTGRES_USER: phonebookreportuser
+      POSTGRES_DB: phonebookreport
     ports:
       - 5433:5432
     container_name: postgres_phonebook_report
     expose:
       - 5433
-    networks:
-      report:
-        ipv4_address: 172.18.0.3
+  
   phonebookapi:
     image: phonebook-api
     build:
@@ -61,9 +59,7 @@ services:
       - 5000
     ports:
       - 5000:5000
-    networks:
-      report:
-        ipv4_address: 172.18.0.2
+   
   phonebookreportapi:
     image: phonebook-report-api
     build:
@@ -73,13 +69,4 @@ services:
       - 5003:5003
     expose:
       - 5003
-    networks:
-      report:
-        ipv4_address: 172.18.0.7
-networks:
-  report:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.0/16
+ 
