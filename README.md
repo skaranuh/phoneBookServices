@@ -2,7 +2,6 @@
 Phonebook services consists of two micro services. One service creates phone book entities, the other creates reports. A queue mechanism is used for asynchronous processing of reporting requests.   
 &nbsp;   
 ### install docker images     
-
 //PostgreSql, Kafka, Zookeeper, PhoneBookApi, PhoneBookReport      
 &nbsp;   
 //create phonebook-report-api image   
@@ -12,6 +11,7 @@ docker build --rm --pull -f "src/PhoneBook.Report.Api/Dockerfile" --label "com.m
 docker build --rm --pull -f "src/PhoneBook.Api/Dockerfile" --label "com.microsoft.created-by=visual-studio-code" -t "phonebook-api:latest" "."   
 &nbsp;   
 cd src   
+//volumes in docker compose needs to be shared by docker   
 docker-compose up    
 
 &nbsp;   
@@ -30,7 +30,7 @@ exit
 &nbsp;   
 
 ### update api database  
-//update server info in connection string in ".\src\PhoneBook.Api\appsettings.json"' as localhost
+//update server info in connection string in ".\src\PhoneBook.Api\appsettings.json"' as localhost , port 5434
 cd .\PhoneBook.Api.DataContext\   
 dotnet ef database update --startup-project ..\PhoneBook.Api\  
 cd ..   
@@ -50,7 +50,7 @@ exit
 &nbsp; 
 
 ### update report database  
-//update server info in connection string in ".\src\PhoneBook.Report.Api\appsettings.json"' as localhost 
+//update server info in connection string in ".\src\PhoneBook.Report.Api\appsettings.json"' as localhost , port 5433
 cd .\PhoneBook.Report.Api.DataContext\   
 dotnet ef database update --startup-project ..\PhoneBook.Report.Api\  
 &nbsp;  
@@ -60,5 +60,3 @@ http://localhost:5000
 &nbsp;  
 //PhoneBookReport   
 http://localhost:5003     
-
-
