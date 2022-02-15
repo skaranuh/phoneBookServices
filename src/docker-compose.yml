@@ -14,7 +14,7 @@ services:
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.01:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
@@ -22,13 +22,10 @@ services:
  
   api_db:
     image: postgres
-    restart: always
-    volumes:
-      - /private/var/lib/postgresql:/var/lib/postgresql-api
+    restart: always    
     environment:
-      POSTGRES_PASSWORD: phoneBookPass
-      POSTGRES_USER: phonebookuser
-      POSTGRES_DB: phonebook
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
     ports:
       - 5434:5432
     container_name: postgres_phonebook_api
@@ -38,12 +35,10 @@ services:
   report_db:
     image: postgres
     restart: always
-    volumes:
-      - /private/var/lib/postgresql:/var/lib/postgresql-report
+   
     environment:
-      POSTGRES_PASSWORD: phoneBookReportPass
-      POSTGRES_USER: phonebookreportuser
-      POSTGRES_DB: phonebookreport
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
     ports:
       - 5433:5432
     container_name: postgres_phonebook_report
@@ -62,6 +57,8 @@ services:
    
   phonebookreportapi:
     image: phonebook-report-api
+    volumes:
+      -   C:/Users/skaranuh/scratch/phonebook/excel:/app/report
     build:
       context: .
       dockerfile: src/PhoneBook.Report.Api/Dockerfile
