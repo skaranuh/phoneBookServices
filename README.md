@@ -22,11 +22,13 @@ su postgres
 createuser -P -d -E -e phonebookuser   
 //password: phoneBookPass   
 &nbsp;   
+
 psql -h localhost -U postgres -c "CREATE DATABASE phonebook;"   
 psql -h localhost -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE phonebook to phonebookuser;"   
 exit   
 exit   
 &nbsp;   
+
 ### update api database  
 //update server info in connection string in ".\src\PhoneBook.Api\appsettings.json"' as localhost , port 5434
 cd .\PhoneBook.Api.DataContext\   
@@ -40,11 +42,13 @@ su postgres
 createuser -P -d -E -e phonebookreportuser   
 //password: phoneBookReportPass  
 &nbsp;   
+
 psql -h localhost -U postgres -c "CREATE DATABASE phonebookreport;"   
 psql -h localhost -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE phonebookreport to phonebookreportuser;"   
 exit   
 exit   
 &nbsp; 
+
 ### update report database  
 //update server info in connection string in ".\src\PhoneBook.Report.Api\appsettings.json"' as localhost , port 5433
 cd .\PhoneBook.Report.Api.DataContext\   
@@ -56,3 +60,4 @@ http://localhost:5000
 &nbsp;  
 //PhoneBookReport   
 http://localhost:5003     
+
